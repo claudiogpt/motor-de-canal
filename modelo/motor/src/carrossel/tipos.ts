@@ -58,7 +58,7 @@ export type Slide =
 
 export type CarrosselProps = {
   slug: string;
-  /** Serie do canal, ex. "A Conta". Corre na vertical na margem esquerda. */
+  /** Serie do canal, ex. "A Conta". NÃO ponha duração no nome: um canal rodou meses com "Conceito em 40 s" em vídeos de 30 s. Corre na vertical na margem esquerda. */
   serie: string;
   /** Slug do Reel de onde este carrossel deriva, para rastrear o acervo. */
   deriva?: string;
