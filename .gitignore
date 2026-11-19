@@ -1,0 +1,20 @@
+# dependências
+modelo/motor/node_modules/
+node_modules/
+
+# o Remotion liga o áudio do dia aqui a cada render
+modelo/motor/public/
+
+# saída: o render reproduz, então não versiona
+**/out/
+__pycache__/
+*.pyc
+
+# o áudio é gerado; o wav de referência de voz é exceção e fica versionado
+**/audio/*.wav
+!**/marca/voz/*.wav
+
+# chaves, nunca
+.env
+.env.*
+!.env.exemplo

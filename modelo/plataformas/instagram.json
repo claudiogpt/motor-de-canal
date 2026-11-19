@@ -1,0 +1,73 @@
+{
+  "_": "Medidas da interface do Instagram. Isto NÃO é marca: vale para qualquer canal, em qualquer tema. Foi medido em frame, não lido em documentação. Não mexa sem remedir.",
+  "plataforma": "instagram",
+  "reel": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 30,
+    "areaSegura": {
+      "_": "Fora disto a interface do app cobre o conteúdo. A direita é dos botões.",
+      "topo": 150,
+      "base": 440,
+      "esquerda": 72,
+      "direita": 220
+    },
+    "colunaCentral": {
+      "_": "Coluna das cenas no topo e no meio da tela. Mesma largura útil da área segura (788 px), deslocada 74 px à direita, então a borda direita fica em x=934. Serve para o conteúdo ficar no centro do quadro em vez de encostado à esquerda.",
+      "esquerda": 146,
+      "direita": 146
+    },
+    "faixaDeIcones": {
+      "_": "ARMADILHA QUE JÁ CUSTOU TRÊS CORREÇÕES. Os ícones do Instagram ocupam a faixa direita SÓ no terço de baixo. Então o limite da direita não é um número: é x=934 em cima e x=860 a partir de y=1280. Medir a faixa de baixo contra a régua de cima dá falso negativo, e medir a de cima contra a de baixo dá falso positivo. Uma régua por faixa.",
+      "aPartirDeY": 1280,
+      "limiteDireita": 860
+    },
+    "capa": {
+      "_": "O Instagram escolhe a capa do Reel por thumbOffset, em ms desde o início, e o padrão é 0. O quadro 0 é o fundo ainda vazio, antes do texto do gancho entrar: capa preta. Aponte para o fim do bloco de gancho, quando todo o texto já entrou e a cena ainda não trocou.",
+      "campo": "platformSpecificData.thumbOffset",
+      "unidade": "ms",
+      "margemAntesDaTrocaDeCena": 0.45,
+      "conferirComo": "abrindo a grade do perfil. NUNCA pelo campo thumbnailUrl de analytics: ele é um asset cacheado que não é a capa que o público vê."
+    }
+  },
+  "carrossel": {
+    "largura": 1080,
+    "altura": 1350,
+    "maximoDeSlides": 10,
+    "_proporcao": "Todos os slides herdam a proporção do primeiro. Mantenha todos idênticos.",
+    "margem": {
+      "_": "No feed nada se sobrepõe ao carrossel, então a área segura do Reels não vale aqui. A restrição real é a grade do perfil.",
+      "topo": 96,
+      "base": 96,
+      "lado": 84
+    },
+    "folga": {
+      "_": "ARMADILHA. Texto alinhado exatamente na linha da margem acusa estouro, porque a borda suavizada do glifo ocupa o pixel seguinte. Margem encostada e margem respeitada não são a mesma coisa. 8 px entre a caixa de conteúdo e a margem.",
+      "px": 8
+    },
+    "quadradoDaGrade": {
+      "_": "A grade do perfil recorta o 4:5, e é onde a conversão acontece. Vale só no slide 1, que é a capa. União segura entre bloco quadrado e bloco 3:4, porque a grade ao vivo nunca foi medida: se for 3:4, dá para relaxar isto e ganhar 135 px de altura.",
+      "aplicaEm": [
+        1
+      ],
+      "topo": 135,
+      "base": 135
+    }
+  },
+  "legenda": {
+    "limiteDeCaracteres": 2200,
+    "temCampoDeTitulo": false,
+    "_titulo": "O Instagram não tem campo de título. A primeira linha da legenda faz esse papel, então ela precisa carregar o clickbait.",
+    "linksNaLegenda": false,
+    "_links": "Link em legenda de Instagram não é clicável e ocupa caracteres. A entrada do Instagram leva customContent sem links."
+  },
+  "alcance": {
+    "_": "O Instagram não recomenda conteúdo político a quem não segue a conta, desde fevereiro de 2024. Abra ganchos por economia, filosofia ou objeto do dia a dia, e confira o Status da Conta toda semana.",
+    "naoRecomendaPolitico": true
+  },
+  "oQueNaoDaPorAPI": {
+    "_": "Reel já publicado: não existe API para trocar a capa. posts_edit_post não cobre Instagram e posts_update_post_metadata só serve para YouTube. Só à mão, no aplicativo: abrir o Reel, três pontos, Editar, e arrastar a linha do tempo. Pela web não dá: a web edita legenda, marcação e localização.",
+    "capaDepoisDePublicado": false,
+    "legendaDepoisDePublicado": false
+  }
+}

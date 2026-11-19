@@ -1,0 +1,70 @@
+{
+  "_": "Quem o canal é. Este arquivo responde o que a IA precisa saber para escrever um roteiro sem perguntar de novo. /canal-novo preenche por entrevista.",
+
+  "nome": "",
+  "tema": "",
+  "_tema": "Uma frase. Não 'economia', e sim o que o canal faz com economia.",
+
+  "linhaEditorial": "",
+  "_linhaEditorial": "A regra que decide o que entra e o que não entra. O exemplo que deu certo: 'política explicada pelo mecanismo, não pela torcida'. Ela precisa ser capaz de REPROVAR um roteiro, senão não é linha editorial, é slogan.",
+
+  "promessaAoPublico": "",
+  "_promessaAoPublico": "O que o espectador leva. Exemplo: 'aumentar o QI político de quem assiste, de qualquer lado'.",
+
+  "publico": {
+    "quem": "",
+    "doresQueOTrazem": [],
+    "temMenoresDeIdade": true,
+    "_menores": "Se verdadeiro: sem palavrão, sem humilhar quem pensa diferente, sem incentivar ilegalidade."
+  },
+
+  "pilares": [
+    { "nome": "", "descricao": "", "proporcao": 0 }
+  ],
+  "_pilares": "4 a 6 pilares, com proporção somando 1. O pilar é o tipo de conteúdo, não o assunto.",
+
+  "series": [
+    { "nome": "", "formato": "", "selo": "" }
+  ],
+  "_series": "Séries fixas dão reconhecimento. ARMADILHA: não ponha duração no nome do selo. Um canal rodou meses com o selo 'Conceito em 40 s' em vídeos de 30 s, porque o selo foi escrito antes de o tempo passar a sair do áudio medido.",
+
+  "formatos": {
+    "_": "Quais formatos este canal produz, e a cadência. Um formato desligado não é apagado: o motor continua pronto.",
+    "reel":      { "ativo": true,  "porSemana": 9, "horarios": ["19:00"], "plataformas": ["instagram", "youtube"] },
+    "carrossel": { "ativo": false, "porSemana": 2, "horarios": ["12:00"], "plataformas": ["instagram"] },
+    "longo":     { "ativo": false, "porSemana": 0, "horarios": [],        "plataformas": ["youtube"] },
+    "historia":  { "ativo": false, "porSemana": 0, "horarios": [],        "plataformas": ["youtube", "instagram"] }
+  },
+  "_cadenciaInicial": "Comece só com reel. Vídeo longo exige público que um canal novo não tem: um canal mediu 1.110 views no Short e 1 view no longo de MESMO TÍTULO, quatro dias depois. Ligue o longo quando a conta tiver alcance, não antes.",
+
+  "fusoHorario": "America/Sao_Paulo",
+  "offsetUTC": "-03:00",
+  "_offset": "Offset explícito, sempre. Não deixe a API adivinhar.",
+
+  "idioma": "pt-BR",
+
+  "contas": {
+    "_": "Preenchido por /canal-novo. IDs de conta, nunca credenciais. Chave nenhuma entra em arquivo versionado.",
+    "instagram": { "usuario": "", "accountId": "" },
+    "youtube":   { "usuario": "", "accountId": "" }
+  },
+
+  "adaptadores": {
+    "tts": "estimativa",
+    "publicacao": "manual"
+  },
+  "_adaptadores": "Padrão sem custo e sem chave: 'estimativa' para voz e 'manual' para publicação. Troque para 'kokoro' e 'zernio' quando as contas existirem.",
+
+  "regrasDeTexto": [
+    "Frases curtas. Fato primeiro.",
+    "Sem travessão.",
+    "Sem linguagem de marketing e sem clichê motivacional.",
+    "Tecnicamente honesto: a ressalva fica, mesmo que enfraqueça o gancho."
+  ],
+
+  "avisosObrigatorios": {
+    "_": "Tema que exige aviso na legenda. Chave é o tema, valor é o aviso.",
+    "investimento": "Não é recomendação de investimento.",
+    "imposto": "Não é consultoria tributária."
+  }
+}

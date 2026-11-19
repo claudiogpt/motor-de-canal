@@ -1,0 +1,11 @@
+{
+  "slug": "exemplo",
+  "serie": "A Conta",
+  "slideAtual": 0,
+  "slides": [
+    { "tipo": "capa", "marca": "fato", "linhas": [
+      { "texto": "Você acha que" },
+      { "texto": "é tudo imposto.", "cor": "ouro" },
+      { "texto": "62% é seu.", "cor": "custo" } ] }
+  ]
+}

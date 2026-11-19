@@ -1,0 +1,59 @@
+{
+  "_": "Medidas e armadilhas do YouTube. Vale para qualquer canal. Medido, não suposto.",
+  "plataforma": "youtube",
+
+  "longo": {
+    "largura": 1920,
+    "altura": 1080,
+    "fps": 30,
+    "areaSegura": {
+      "_": "Régua do player. A base é maior que o topo por causa dos controles.",
+      "topo": 84,
+      "base": 132,
+      "esquerda": 120,
+      "direita": 120
+    }
+  },
+
+  "short": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 30,
+    "_": "Mesmo arquivo do Reel. O enquadramento seguro do Instagram é mais apertado, então um vídeo que passa no Instagram passa aqui.",
+    "capa": {
+      "_": "Sem capa própria o YouTube escolhe sozinho um quadro do meio, e o que entra é o gráfico já montado, nunca o gancho. Use o MESMO instante que o thumbOffset do Instagram: fim do bloco de gancho menos 0,45 s.",
+      "urlQueOPublicoVe": "https://i.ytimg.com/vi/<id>/oar2.jpg",
+      "dimensao": "1080x1920",
+      "formato": "jpeg",
+      "tetoDeTamanhoMB": 2,
+      "_formato": "JPEG porque o teto de 2 MB não cabe um PNG de 1080x1920.",
+      "armadilhaDoMaxres": "maxresdefault.jpg é a versão 16:9, com o Short em letterbox. Conferir por ela leva a conclusão errada sobre enquadramento.",
+      "armadilhaDeCache": "A URL oar2.jpg sem parâmetro é cacheada pelo CDN e continua servindo a capa velha depois da troca, com byte count idêntico. Pôr ?v=<aleatório> não quebra o cache, porque o i.ytimg ignora query desconhecida. A URL que serve a versão atual é a ASSINADA, que yt-dlp --dump-json traz no array thumbnails.",
+      "soDepoisDePublicado": true,
+      "_soDepois": "A capa se aplica ao vídeo que já está no ar, então não dá para mandar junto com o agendamento. Todo Short agendado precisa de um passo depois do ar."
+    }
+  },
+
+  "titulo": {
+    "_": "ARMADILHA DESCOBERTA NA PRÁTICA. O campo title da raiz do post é só referência interna. O título do vídeo é platformSpecificData.title na entrada do youtube; sem ele, o YouTube usa a primeira linha da descrição.",
+    "campo": "platformSpecificData.title",
+    "limiteDeCaracteres": 100,
+    "conferirComo": "oembed, depois de publicado"
+  },
+
+  "capaPersonalizada": {
+    "_": "O YouTube só aceita miniatura personalizada em canal verificado por telefone (youtube.com/verify). Sem isso a API devolve 403 e o vídeo publica normalmente, só a miniatura é pulada.",
+    "exigeCanalVerificadoPorTelefone": true,
+    "cacheDaRecusa": "A Zernio guarda a recusa por 7 dias e não tenta de novo nesse período. Na prática isso não atrapalhou: depois de verificar, aceitou de primeira."
+  },
+
+  "descricao": {
+    "aceitaLinks": true,
+    "editavelDepoisDePublicado": true
+  },
+
+  "oQueNaoDaPorAPI": {
+    "_": "O áudio de um vídeo publicado não muda. Se a narração afirmou algo sem fonte, a descrição dá para editar e a fala não.",
+    "audioDepoisDePublicado": false
+  }
+}

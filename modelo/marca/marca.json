@@ -1,0 +1,91 @@
+{
+  "_": "A marca do canal. É o único arquivo de cor e tipografia: nenhum componente declara cor própria. /canal-novo substitui as cores e o nome; os tamanhos abaixo foram medidos em celular e servem de ponto de partida para qualquer tema.",
+  "nome": "Canal Novo",
+  "descricao": "Paleta neutra de partida. Troque por uma que diga algo sobre o tema. Duas regras que sobreviveram à prática: fundo quase preto em vez de preto puro, porque preto puro achata o gráfico; e uma cor reservada para custo ou perda, que só aparece onde há custo, senão deixa de ser lida.",
+  "versao": "1.0.0",
+  "cores": {
+    "_": "Os nomes são semânticos de propósito. Um componente pede 'custo', não 'vermelho', então trocar a paleta não exige reler componente nenhum.",
+    "bg": "#0E0E10",
+    "bgRaise": "#16161A",
+    "rule": "#28282E",
+    "gold": "#C9A227",
+    "goldBright": "#E3BE52",
+    "goldDim": "#8A701B",
+    "text": "#F2F2F0",
+    "textMuted": "#A0A0A0",
+    "textFaint": "#6A6A6A",
+    "cost": "#B5452F",
+    "costDim": "#7A2E1F",
+    "ok": "#5F7A58"
+  },
+  "fontes": {
+    "display": "'Inter Display', 'Inter', system-ui, sans-serif",
+    "body": "'Inter', system-ui, sans-serif"
+  },
+  "tipografia": {
+    "_": "Tamanhos para 1080 px de largura. Medidos em celular: abaixo disto o texto não se lê na palma da mão. Se mudar a largura da composição, escale proporcionalmente.",
+    "hook": {
+      "size": 118,
+      "weight": 900,
+      "lineHeight": 1.02,
+      "letterSpacing": -3
+    },
+    "h1": {
+      "size": 92,
+      "weight": 900,
+      "lineHeight": 1.06,
+      "letterSpacing": -2
+    },
+    "h2": {
+      "size": 66,
+      "weight": 800,
+      "lineHeight": 1.12,
+      "letterSpacing": -1
+    },
+    "num": {
+      "size": 170,
+      "weight": 900,
+      "letterSpacing": -6
+    },
+    "body": {
+      "size": 48,
+      "weight": 500,
+      "lineHeight": 1.3
+    },
+    "caption": {
+      "size": 56,
+      "weight": 800,
+      "lineHeight": 1.22
+    },
+    "label": {
+      "size": 28,
+      "weight": 700,
+      "letterSpacing": 4
+    },
+    "source": {
+      "size": 24,
+      "weight": 500,
+      "letterSpacing": 0.5
+    }
+  },
+  "mascote": {
+    "_": "Opcional. Um mascote reage, não fala: duvida, aprova, se espanta. Entra em poucos momentos, e um deles é sempre a autocrítica, onde ele discorda do próprio lado. A expressão é um conjunto de números (olho, pupila, sobrancelha, boca, inclinação), não um desenho por humor: expressão nova é uma linha na tabela.",
+    "ativo": false,
+    "bicho": null,
+    "_bichos": "Já desenhados e disponíveis: coruja, tatu-bola, jabuti, raposa. O rosto é um núcleo único e cada bicho é uma pele, então trocar não piora a expressão."
+  },
+  "voz": {
+    "_": "A voz da narração. Veja adaptadores/tts/.",
+    "adaptador": "estimativa",
+    "_adaptadorPadrao": "'estimativa' gera wav silenciosos do tamanho certo, então o canal renderiza sem chave, sem GPU e sem custo. Troque por 'kokoro' quando quiser voz de verdade.",
+    "kokoro": {
+      "voz": "pm_santa"
+    },
+    "chatterbox": {
+      "referencia": "marca/voz/referencia.wav",
+      "aceleracao": 1.25
+    },
+    "alvoLUFS": -14,
+    "tetoDBTP": -1
+  }
+}

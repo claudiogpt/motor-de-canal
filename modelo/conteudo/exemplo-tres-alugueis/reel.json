@@ -1,0 +1,47 @@
+{
+  "slug": "teste-portabilidade",
+  "serie": "A Conta",
+  "fps": 30,
+  "blocos": [
+    {
+      "tipo": "gancho",
+      "linhas": [
+        { "texto": "Você paga 3 aluguéis", "naBatida": 0 },
+        { "texto": "e mora em 1", "cor": "ouro", "naBatida": 1 }
+      ],
+      "falas": [
+        "Todo mês você paga três aluguéis.",
+        "E mora em um só. Os outros dois estão no preço de tudo que você compra."
+      ]
+    },
+    {
+      "tipo": "escada",
+      "titulo": "O aluguel que entra no preço do pão.",
+      "degraus": [
+        { "horas": "1", "quando": "o seu", "naBatida": 0 },
+        { "horas": "2", "quando": "o da padaria", "naBatida": 1 },
+        { "horas": "3", "quando": "o do moinho", "naBatida": 2 }
+      ],
+      "rodape": {
+        "rotulo": "Quanto disso você vê na conta",
+        "agora": "1",
+        "depois": "de 3",
+        "fim": "Os outros 2 vêm embutidos"
+      },
+      "falas": [
+        "O primeiro é o seu, e esse você vê.",
+        "O segundo é o da padaria, que entra no preço do pão.",
+        "O terceiro é o do moinho, que entra no preço da farinha.",
+        "Você vê um de três. Os outros dois chegam embutidos, sem linha na conta."
+      ]
+    },
+    {
+      "tipo": "cta",
+      "pergunta": "Quantos aluguéis você acha que paga sem ver?",
+      "acao": "Comenta sua resposta",
+      "falas": [
+        "Quantos aluguéis você paga sem ver? Comenta aí."
+      ]
+    }
+  ]
+}

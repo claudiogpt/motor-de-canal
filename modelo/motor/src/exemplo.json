@@ -1,0 +1,31 @@
+{
+  "slug": "exemplo",
+  "serie": "Conceito em 40 s",
+  "fps": 30,
+  "audioBase": "vozes/exemplo",
+  "blocos": [
+    {
+      "tipo": "gancho",
+      "falas": ["Abra o Studio com um dia de verdade."],
+      "linhas": [{ "texto": "Abra o Studio", "naBatida": 0 }, { "texto": "com um dia de verdade.", "cor": "ouro", "naBatida": 0 }]
+    }
+  ],
+  "tempos": {
+    "fps": 30,
+    "motor": "kokoro",
+    "voz": "pm_santa",
+    "total": 2.5,
+    "respiro_batida": 0.12,
+    "respiro_bloco": 0.3,
+    "blocos": [
+      {
+        "bloco": 1,
+        "tipo": "gancho",
+        "duracao": 2.5,
+        "batidas": [
+          { "bloco": 1, "batida": 0, "arquivo": "audio/b01-00.wav", "duracao": 2.2, "inicio": 0, "fala": "Abra o Studio com um dia de verdade." }
+        ]
+      }
+    ]
+  }
+}
