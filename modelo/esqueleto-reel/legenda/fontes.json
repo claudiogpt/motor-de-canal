@@ -1,0 +1,14 @@
+{
+  "avisos": [
+    "Se algum número do vídeo for simulação ou estimativa, diga aqui."
+  ],
+  "fontes": [
+    {
+      "bloco": "escada",
+      "sobre": "o que esta fonte sustenta",
+      "veiculo": "Veículo ou documento",
+      "data": "DD/MM/AAAA",
+      "url": "https://"
+    }
+  ]
+}

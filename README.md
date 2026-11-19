@@ -77,7 +77,7 @@ verdade.
 | O que aprendemos errando | [docs/05-licoes-aprendidas.md](docs/05-licoes-aprendidas.md) |
 
 A doutrina que a IA segue está em
-[plugins/motor-de-canal/skills/](plugins/motor-de-canal/skills/). Vale a leitura
+[skills/](skills/). Vale a leitura
 mesmo para quem não usa IA: é o manual do canal.
 
 ## Licença

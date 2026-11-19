@@ -1,20 +1,18 @@
 {
   "_": "Medidas e armadilhas do YouTube. Vale para qualquer canal. Medido, não suposto.",
   "plataforma": "youtube",
-
   "longo": {
     "largura": 1920,
     "altura": 1080,
     "fps": 30,
     "areaSegura": {
-      "_": "Régua do player. A base é maior que o topo por causa dos controles.",
+      "_": "Régua do player. A base é maior que o topo por causa dos controles e do cartão de fim de tela. MEDIDO: 84/132/112/112. Qualquer número diferente aqui é erro de transcrição, não ajuste.",
       "topo": 84,
       "base": 132,
-      "esquerda": 120,
-      "direita": 120
+      "esquerda": 112,
+      "direita": 112
     }
   },
-
   "short": {
     "largura": 1080,
     "altura": 1920,
@@ -33,25 +31,21 @@
       "_soDepois": "A capa se aplica ao vídeo que já está no ar, então não dá para mandar junto com o agendamento. Todo Short agendado precisa de um passo depois do ar."
     }
   },
-
   "titulo": {
     "_": "ARMADILHA DESCOBERTA NA PRÁTICA. O campo title da raiz do post é só referência interna. O título do vídeo é platformSpecificData.title na entrada do youtube; sem ele, o YouTube usa a primeira linha da descrição.",
     "campo": "platformSpecificData.title",
     "limiteDeCaracteres": 100,
     "conferirComo": "oembed, depois de publicado"
   },
-
   "capaPersonalizada": {
     "_": "O YouTube só aceita miniatura personalizada em canal verificado por telefone (youtube.com/verify). Sem isso a API devolve 403 e o vídeo publica normalmente, só a miniatura é pulada.",
     "exigeCanalVerificadoPorTelefone": true,
     "cacheDaRecusa": "A Zernio guarda a recusa por 7 dias e não tenta de novo nesse período. Na prática isso não atrapalhou: depois de verificar, aceitou de primeira."
   },
-
   "descricao": {
     "aceitaLinks": true,
     "editavelDepoisDePublicado": true
   },
-
   "oQueNaoDaPorAPI": {
     "_": "O áudio de um vídeo publicado não muda. Se a narração afirmou algo sem fonte, a descrição dá para editar e a fala não.",
     "audioDepoisDePublicado": false

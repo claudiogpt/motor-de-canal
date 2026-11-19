@@ -84,9 +84,10 @@ ao ar com a conta errada.
 Você **não** edita `plataformas/*.json`. São as medidas da interface do
 Instagram e do YouTube, medidas em frame, e valem para qualquer canal.
 
-## Os três comandos
+## Os comandos
 
 ```bash
+./novo-video.sh 2026-11-20 meu-tema                # cria a pasta do vídeo
 python3 -I ferramentas/duracao.py conteudo/<dia>   # quanto vai durar
 python3 -I ferramentas/narrar.py  conteudo/<dia>   # gera e mede a voz
 ./renderizar.sh                   conteudo/<dia>   # faz o MP4
@@ -94,6 +95,17 @@ python3 -I ferramentas/medir-reel.py conteudo/<dia>/out/reel.mp4
 ```
 
 Nessa ordem. O render recusa rodar sem a narração, de propósito.
+
+O `renderizar.sh` descobre o formato pelo arquivo que existe na pasta
+(`reel.json`, `longo.json`, `historia.json`) e desvia para o
+`renderizar-carrossel.sh` quando acha `carrossel.json`.
+
+Para carrossel:
+
+```bash
+./novo-carrossel.sh 2026-11-20 meu-tema
+./renderizar-carrossel.sh conteudo/<dia>     # já roda o medidor no fim
+```
 
 ## Voz: três opções
 

@@ -36,8 +36,20 @@ import subprocess
 import sys
 import pathlib
 
-SEGURO = {"top": 84, "bottom": 132, "left": 112, "right": 112}
-Q = (1920, 1080)
+
+# A REGUA VEM DO ARQUIVO DA PLATAFORMA, NAO DAQUI.
+#
+# Estes numeros ja existiram em dois lugares, e os dois divergiram em silencio:
+# uma margem renderizou 40 px maior do que a marca pedia, e numa transcricao a
+# margem lateral do 16:9 virou 120 contra os 112 medidos. Medidor com regua
+# propria e pior que nao medir, porque da confianca errada.
+_P = pathlib.Path(__file__).resolve().parents[1] / "plataformas"
+_PLAT = lambda n: json.loads((_P / f"{n}.json").read_text(encoding="utf-8"))
+
+_L = _PLAT("youtube")["longo"]
+SEGURO = {"top": _L["areaSegura"]["topo"], "bottom": _L["areaSegura"]["base"],
+          "left": _L["areaSegura"]["esquerda"], "right": _L["areaSegura"]["direita"]}
+Q = (_L["largura"], _L["altura"])
 LIMIAR = 110
 FPS_AMOSTRA = 3
 
@@ -107,10 +119,19 @@ def main() -> None:
     print(f"resolucao : {v['w']}x{v['h']} a {v['fps']} fps")
     print(f"duracao   : {v['dur']:.1f} s  ({int(v['dur']//60)}:{int(v['dur']%60):02d})")
     i, tp = volume(mp4)
-    ok_vol = -15.6 <= i <= -13.5 and tp <= -1.0
-    print(f"volume    : {i:.2f} LUFS, pico real {tp:.2f} dBTP   "
-          f"{'ok' if ok_vol else 'FORA DO ALVO'}")
-    sil = silencios(mp4)
+    # Video sem som: narrado pelo adaptador 'estimativa'. Dizer isso, em vez de
+    # imprimir "-inf LUFS FORA DO ALVO" e deixar quem le concluir que o volume
+    # saiu errado quando na verdade nao existe audio ainda.
+    mudo = i < -70
+    if mudo:
+        print("volume    : SEM SOM (adaptador 'estimativa'). Layout e tempo "
+              "valem; para publicar, narre com voz de verdade.")
+        ok_vol = True
+    else:
+        ok_vol = -15.6 <= i <= -13.5 and tp <= -1.0
+        print(f"volume    : {i:.2f} LUFS, pico real {tp:.2f} dBTP   "
+              f"{'ok' if ok_vol else 'FORA DO ALVO'}")
+    sil = [] if mudo else silencios(mp4)
     print(f"silencio  : {len(sil)} trecho(s) acima de 0,5 s"
           + ("" if not sil else "  " + ", ".join(f"{a:.1f}-{b:.1f}s" for a, b in sil[:6])))
     achados, n = area_segura(mp4)

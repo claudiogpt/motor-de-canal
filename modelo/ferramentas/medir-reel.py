@@ -25,17 +25,43 @@ from __future__ import annotations
 import json
 import re
 import subprocess
+import pathlib
 import sys
 
 LIMIAR = 80
 AMOSTRAS_POR_SEGUNDO = 3
 
-# nome: (x, y, largura, altura) em 1080x1920. Tudo aqui deve ficar vazio.
+# A REGUA VEM DO ARQUIVO DA PLATAFORMA, NAO DAQUI.
+#
+# Estes numeros ja existiram em dois lugares, e os dois divergiram em silencio:
+# uma margem renderizou 40 px maior do que a marca pedia, e numa transcricao a
+# margem lateral do 16:9 virou 120 contra os 112 medidos. Medidor com regua
+# propria e pior que nao medir, porque da confianca errada.
+_P = pathlib.Path(__file__).resolve().parents[1] / "plataformas"
+_PLAT = lambda n: json.loads((_P / f"{n}.json").read_text(encoding="utf-8"))
+
+_R = _PLAT("instagram")["reel"]
+_W, _H = _R["largura"], _R["altura"]
+_S = _R["areaSegura"]
+_COL = _W - _R["colunaCentral"]["direita"]      # 934: borda da coluna central
+_ICO = _R["faixaDeIcones"]["limiteDireita"]     # 860: onde os icones comecam
+_Y = _R["faixaDeIcones"]["aPartirDeY"]          # 1280
+_BASE = _H - _S["base"]                         # 1480
+
+# nome: (x, y, largura, altura). Tudo aqui deve ficar vazio.
+#
+# DUAS REGUAS PARA DUAS ALTURAS, e e a armadilha que mais voltou: os icones do
+# Instagram ocupam a faixa direita SO no terco de baixo. Medir uma faixa com a
+# regua da outra ja produziu relatorio falso de estouro E deixou passar estouro
+# real de 73 px, tres vezes.
 FAIXAS = {
-    "direita do meio (x>934, y 150-1280)": (934, 150, 146, 1130),
-    "direita de baixo (x>860, y 1280-1480)": (860, 1280, 220, 200),
-    "base (y>1480)": (0, 1480, 1080, 440),
-    "esquerda (x<72)": (0, 150, 72, 1330),
+    f"direita do meio (x>{_COL}, y {_S['topo']}-{_Y})":
+        (_COL, _S["topo"], _W - _COL, _Y - _S["topo"]),
+    f"direita de baixo (x>{_ICO}, y {_Y}-{_BASE})":
+        (_ICO, _Y, _W - _ICO, _BASE - _Y),
+    f"base (y>{_BASE})": (0, _BASE, _W, _H - _BASE),
+    f"esquerda (x<{_S['esquerda']})":
+        (0, _S["topo"], _S["esquerda"], _BASE - _S["topo"]),
 }
 
 

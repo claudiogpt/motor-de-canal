@@ -9,8 +9,15 @@
       "cena": "titulo",
       "dados": {
         "linhas": [
-          { "texto": "Ninguém no mundo", "naBatida": 0 },
-          { "texto": "sabe fazer um lápis", "cor": "ouro", "naBatida": 1 }
+          {
+            "texto": "Ninguém no mundo",
+            "naBatida": 0
+          },
+          {
+            "texto": "sabe fazer um lápis",
+            "cor": "ouro",
+            "naBatida": 1
+          }
         ]
       },
       "falas": [
@@ -24,8 +31,17 @@
       "dados": {
         "legenda": "Nenhum dos dois sabe o que o outro faz",
         "pessoas": [
-          { "nome": "lenhador", "x": 330, "naBatida": 0 },
-          { "nome": "grafiteiro", "x": 750, "naBatida": 1, "olhaPara": "esquerda" }
+          {
+            "nome": "lenhador",
+            "x": 330,
+            "naBatida": 0
+          },
+          {
+            "nome": "grafiteiro",
+            "x": 750,
+            "naBatida": 1,
+            "olhaPara": "esquerda"
+          }
         ]
       },
       "falas": [

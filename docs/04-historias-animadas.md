@@ -46,6 +46,10 @@ Trocar `"formato": "9:16"` por `"16:9"` reenquadra a história inteira para o
 YouTube, sem reescrever nada. As posições são calculadas da régua do formato, e
 não escritas à mão.
 
+**Verificado, não suposto:** a mesma história renderizada com o campo trocado
+saiu em 1920x1080 e passou o `medir-longo.py` com zero estouro nas quatro
+faixas.
+
 ## O catálogo
 
 Duas cenas, de propósito: é ponto de partida, não acervo.

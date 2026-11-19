@@ -10,8 +10,12 @@ modelo/motor/public/
 __pycache__/
 *.pyc
 
-# o áudio é gerado; o wav de referência de voz é exceção e fica versionado
-**/audio/*.wav
+# O áudio é gerado. A pasta INTEIRA sai, não só os wav: com tempos.json
+# versionado e os wav ausentes, um clone novo passa pela guarda do render e
+# quebra depois, num 404 de staticFile, em vez de dizer "rode narrar.py".
+**/audio/
+# o wav de referência de voz é outra coisa: é insumo, não saída
+!**/marca/voz/
 !**/marca/voz/*.wav
 
 # chaves, nunca

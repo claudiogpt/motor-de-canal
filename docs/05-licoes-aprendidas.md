@@ -86,6 +86,19 @@ working copy seria sobrescrito e levou junto edições não commitadas de sessõ
 irmãs. O trabalho foi refeito, e a causa foi registrada errada no diário por um
 dia.
 
+## Sobre testar
+
+**Teste que passa com as duas pastas vazias não testou nada.** Um teste de
+determinismo deu "idênticos" porque a flag estava errada e nenhum quadro foi
+gerado: os dois hashes eram o hash do conjunto vazio. Conte os artefatos antes
+de comparar hashes.
+
+**Não teste o render comparando o vídeo codificado.** A mesma cena renderizada
+com concorrência 6 e concorrência 1 deu 359 quadros "diferentes" por framemd5.
+Não era o render: h264 não é byte-determinístico entre concorrências. Comparando
+a sequência PNG, os 81 quadros saíram byte a byte idênticos. O teste errado
+mandaria alguém caçar um bug que não existe.
+
 ## Sobre o que o dado disse e o gosto não diria
 
 **Rótulo ideológico no título mata o alcance.** Mediana de 66 views contra 316

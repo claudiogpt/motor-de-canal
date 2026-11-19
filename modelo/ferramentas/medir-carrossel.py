@@ -33,8 +33,20 @@ import re
 import subprocess
 import sys
 
-Q = (1080, 1350)
-MARGEM = {"topo": 96, "base": 96, "lado": 84}
+
+# A REGUA VEM DO ARQUIVO DA PLATAFORMA, NAO DAQUI.
+#
+# Estes numeros ja existiram em dois lugares, e os dois divergiram em silencio:
+# uma margem renderizou 40 px maior do que a marca pedia, e numa transcricao a
+# margem lateral do 16:9 virou 120 contra os 112 medidos. Medidor com regua
+# propria e pior que nao medir, porque da confianca errada.
+_P = pathlib.Path(__file__).resolve().parents[1] / "plataformas"
+_PLAT = lambda n: json.loads((_P / f"{n}.json").read_text(encoding="utf-8"))
+
+_C = _PLAT("instagram")["carrossel"]
+Q = (_C["largura"], _C["altura"])
+MARGEM = {"topo": _C["margem"]["topo"], "base": _C["margem"]["base"],
+          "lado": _C["margem"]["lado"]}
 QUADRADO = {"topo": (Q[1] - Q[0]) // 2, "base": Q[1] - (Q[1] - Q[0]) // 2}
 LIMIAR = 80
 PESO_MAX = 8 * 1024 * 1024          # limite do Instagram por imagem

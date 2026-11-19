@@ -1,11 +1,13 @@
 {
   "name": "motor-de-canal",
-  "owner": { "name": "Cláudio Augusto" },
+  "owner": {
+    "name": "Cláudio Augusto"
+  },
   "description": "Framework para gerar canais de YouTube e Instagram automáticos: doutrina editorial, arquitetura de tempo dirigida por áudio, render em Remotion, histórias animadas com personagens e verificação por medição.",
   "plugins": [
     {
       "name": "motor-de-canal",
-      "source": "./plugins/motor-de-canal",
+      "source": "./",
       "description": "Cria e opera canais de vídeo curto. Roteiro, narração, render 9:16, 16:9, carrossel 4:5 e história animada, com o tempo saindo do áudio medido e o layout conferido por medidor. Em português do Brasil.",
       "license": "MIT"
     }

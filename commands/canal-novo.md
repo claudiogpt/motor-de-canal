@@ -10,7 +10,7 @@ Carregue a skill `canal-novo` antes de qualquer coisa. Depois:
 ## 1. Copie o modelo
 
 O modelo está em `modelo/` dentro deste plugin (suba a partir de
-`${CLAUDE_PLUGIN_ROOT}/../../modelo`). Copie para a pasta que o usuário pediu,
+`${CLAUDE_PLUGIN_ROOT}/modelo`). Copie para a pasta que o usuário pediu,
 ou para `./` se ele não disse.
 
 Não copie: `conteudo/*/out/`, `conteudo/*/audio/`, `motor/node_modules`.

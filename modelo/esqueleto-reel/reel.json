@@ -1,0 +1,98 @@
+{
+  "slug": "SLUG_AQUI",
+  "serie": "A Conta",
+  "fps": 30,
+  "blocos": [
+    {
+      "tipo": "gancho",
+      "linhas": [
+        {
+          "texto": "Primeira linha do gancho",
+          "naBatida": 0
+        },
+        {
+          "texto": "O número que prende",
+          "cor": "ouro",
+          "naBatida": 1
+        },
+        {
+          "texto": "O custo, se houver",
+          "cor": "custo",
+          "naBatida": 1
+        }
+      ],
+      "falas": [
+        "Batida 0: a primeira frase do gancho, com clickbait que o vídeo paga.",
+        "Batida 1: a virada. Junto com ela entram as linhas de naBatida 1."
+      ]
+    },
+    {
+      "tipo": "escada",
+      "titulo": "A frase que explica o mecanismo.",
+      "degraus": [
+        {
+          "horas": "00",
+          "quando": "antes",
+          "naBatida": 0
+        },
+        {
+          "horas": "00",
+          "quando": "agora",
+          "naBatida": 1
+        },
+        {
+          "horas": "00",
+          "quando": "depois",
+          "naBatida": 2
+        }
+      ],
+      "rodape": {
+        "rotulo": "O que isso vira no bolso",
+        "agora": "0",
+        "depois": "unidade",
+        "fim": "No fim: 0"
+      },
+      "falas": [
+        "Batida 0: diz o primeiro degrau.",
+        "Batida 1: diz o segundo degrau.",
+        "Batida 2: diz o terceiro degrau.",
+        "Batida 3: o rodapé entra na última batida do bloco. Diga o que ele mostra."
+      ]
+    },
+    {
+      "tipo": "setas",
+      "origem": "A conta",
+      "saidas": [
+        {
+          "titulo": "Saída 1",
+          "quemPaga": "Quem paga: ...",
+          "naBatida": 0
+        },
+        {
+          "titulo": "Saída 2",
+          "quemPaga": "Quem paga: ...",
+          "naBatida": 1
+        },
+        {
+          "titulo": "Saída 3",
+          "quemPaga": "Quem ganha: ...",
+          "cor": "ouro",
+          "naBatida": 2
+        }
+      ],
+      "falas": [
+        "Batida 0: a primeira saída.",
+        "Batida 1: a segunda saída.",
+        "Batida 2: a terceira saída."
+      ]
+    },
+    {
+      "tipo": "cta",
+      "pergunta": "A pergunta que fica para o espectador.",
+      "acao": "Comenta sua resposta",
+      "falas": [
+        "A pergunta do fim e o pedido de comentário, numa frase."
+      ]
+    }
+  ]
+}
