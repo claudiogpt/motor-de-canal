@@ -1,0 +1,38 @@
+{
+  "slug": "exemplo-historia-troca",
+  "serie": "Experimento Mental",
+  "fps": 30,
+  "formato": "9:16",
+  "blocos": [
+    {
+      "tipo": "cena",
+      "cena": "titulo",
+      "dados": {
+        "linhas": [
+          { "texto": "Ninguém no mundo", "naBatida": 0 },
+          { "texto": "sabe fazer um lápis", "cor": "ouro", "naBatida": 1 }
+        ]
+      },
+      "falas": [
+        "Ninguém no mundo inteiro sabe fazer um lápis.",
+        "E nem por isso falta lápis na papelaria."
+      ]
+    },
+    {
+      "tipo": "cena",
+      "cena": "conversa",
+      "dados": {
+        "legenda": "Nenhum dos dois sabe o que o outro faz",
+        "pessoas": [
+          { "nome": "lenhador", "x": 330, "naBatida": 0 },
+          { "nome": "grafiteiro", "x": 750, "naBatida": 1, "olhaPara": "esquerda" }
+        ]
+      },
+      "falas": [
+        "Um corta a madeira no Oregon e nunca viu uma mina de grafite.",
+        "O outro tira grafite no Ceilão e nunca serrou uma tábua.",
+        "Os dois fazem um lápis juntos, sem nunca se falarem."
+      ]
+    }
+  ]
+}

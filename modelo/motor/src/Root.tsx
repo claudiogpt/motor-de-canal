@@ -5,9 +5,11 @@ import { Longo } from "./longo/Longo";
 import { Capa } from "./longo/Capa";
 import { FolhaMascote } from "./longo/FolhaMascote";
 import { Slide } from "./carrossel/Slide";
+import { Historia } from "./historia/Historia";
 import type { ReelProps } from "./tipos";
 import type { LongoProps } from "./longo/tipos";
 import type { CarrosselProps } from "./carrossel/tipos";
+import type { HistoriaProps } from "./historia/tipos";
 import exemplo from "./exemplo.json";
 import exemploCarrossel from "./carrossel/exemplo.json";
 
@@ -67,6 +69,41 @@ export const RemotionRoot: React.FC = () => {
           0,
         );
         return { durationInFrames: total, fps };
+      }}
+    />
+
+    {/* Historia animada com personagens, desenhada pelo motion-kit.
+        QUINTO FORMATO, ao lado dos outros: nao substitui cena nenhuma. A
+        largura e a altura vem do proprio historia.json, porque a mesma
+        historia serve 9:16 (Reel e Short) e 16:9 (YouTube). A duracao sai do
+        audio medido, como em todos os formatos. */}
+    <Composition
+      id="Historia"
+      component={Historia}
+      defaultProps={exemplo as unknown as HistoriaProps}
+      width={1080}
+      height={1920}
+      fps={30}
+      durationInFrames={30 * 30}
+      calculateMetadata={({ props }) => {
+        const p = props as HistoriaProps;
+        const fps = p.tempos?.fps ?? p.fps ?? 30;
+        if (!p.tempos?.blocos?.length) {
+          throw new Error(
+            "historia sem audio/tempos.json: rode ferramentas/narrar.py antes do render.",
+          );
+        }
+        const total = p.tempos.blocos.reduce(
+          (acc, b) => acc + Math.round(b.duracao * fps),
+          0,
+        );
+        const retrato = (p.formato ?? "9:16") === "9:16";
+        return {
+          durationInFrames: total,
+          fps,
+          width: retrato ? 1080 : 1920,
+          height: retrato ? 1920 : 1080,
+        };
       }}
     />
 
