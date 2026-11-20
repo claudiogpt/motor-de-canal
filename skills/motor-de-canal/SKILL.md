@@ -27,6 +27,7 @@ produção, não de teoria: cada regra aqui existe porque algo deu errado antes.
 | `historia-animada` | Ao escrever uma história com personagens (motion-kit). |
 | `producao-semanal` | Na rotina de produzir a semana inteira. |
 | `canal-novo` | Para criar um canal do zero. |
+| `documentacao-visual` | Ao escrever README, docs ou qualquer coisa que um HUMANO vai ler. |
 
 ## As cinco regras que não se negociam
 
@@ -42,6 +43,10 @@ Elas custaram caro. Quebrar uma delas reintroduz um defeito que já foi corrigid
    serve, e já contradisse a lei em três casos.
 5. **O dono aprova antes de publicar.** Título, capa e agendamento passam por
    ele.
+
+E uma sexta, para o que você escreve em vez de produzir: **documentação para
+humano é visual primeiro, texto depois** (`documentacao-visual`). Para IA, como
+esta skill, texto corrido serve.
 
 ## A ordem de produção, e ela não é preferência
 
