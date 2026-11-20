@@ -795,7 +795,7 @@ export const Declara16: React.FC<{
               textAlign: "center",
               lineHeight: 1.2,
               maxWidth: LARG - 120,
-              // Sem caixa, por decisao do Claudio em 05/11/2026: texto puro nao
+              // Sem caixa, por decisao do dono do canal: texto puro nao
               // precisa de moldura, e a borda so disputava atencao com o texto.
               // O que separa uma afirmacao da outra agora e o espaco e a cor.
               padding: `${padV}px 40px`,

@@ -1,7 +1,7 @@
 /**
  * A coruja assistindo junto, no canto do quadro.
  *
- * Pedido do Claudio em 05/11/2026: "adicione a coruja em todo o video... a
+ * Pedido do dono do canal: "adicione a coruja em todo o video... a
  * ideia e ela assistir junto com quem ta vendo, e ir reagindo com o video,
  * andando, mexendo, ela e como um professor".
  *

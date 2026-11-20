@@ -3,7 +3,7 @@
  *
  * Desenhadas em SVG aqui dentro, nunca geradas por IA: a regra da casa proibe
  * imagem de figura publica feita por IA, e gerar imagem custaria GPU e pediria
- * confirmacao a cada render. O estilo e o da capa que o Claudio aprovou:
+ * confirmacao a cada render. O estilo e o da capa que o dono do canal aprovou:
  * silhueta grande e fechada, que continua legivel pequena.
  *
  * Sao poucas pecas de proposito. A 3 videos por semana, o que serve e um

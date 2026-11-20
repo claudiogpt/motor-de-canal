@@ -3,7 +3,7 @@
  *
  * Elas existem porque as cenas antigas (`cartoes`, `declara`, `colunas`) sao
  * todas a mesma coisa: texto dentro de retangulo. Num video de 13 minutos isso
- * e parede, e foi o que o Claudio reprovou em 05/11/2026 ("menos texto mais
+ * e parede, e foi o que o dono do canal reprovou ("menos texto mais
  * visual, video com texto nao rende no YouTube").
  *
  * A regra de ouro aqui: no maximo UMA frase curta na tela por cena. Quem
@@ -547,7 +547,7 @@ export const Numero16: React.FC<{
 /**
  * A coruja dando aula: ela ao lado de um quadro, apontando o que escreveu.
  *
- * Pedido do Claudio em 05/11/2026, junto com o capelo. Serve para os momentos
+ * Pedido do dono do canal, junto com o capelo. Serve para os momentos
  * de definicao, em que nao ha grafico a fazer e o que existe e um conceito a
  * enunciar. Antes esses blocos eram `frase`, que e texto sozinho no centro do
  * quadro: aqui o mesmo texto ganha quem o esta dizendo.

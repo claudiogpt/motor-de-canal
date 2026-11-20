@@ -31,7 +31,7 @@ export const ALT = Q.h - seguro.top - seguro.bottom; // 864
 /**
  * Tipografia do longo.
  *
- * Baixada cerca de 25% em 05/11/2026, a pedido do Claudio: na escala anterior
+ * Baixada cerca de 25%, a pedido do dono do canal: na escala anterior
  * o texto "gritava" no YouTube. O Reel e visto de perto, com o celular na mao,
  * e aguenta corpo grande; o longo e visto numa tela maior e de mais longe, com
  * mais texto por tela, e corpo grande ali vira parede.

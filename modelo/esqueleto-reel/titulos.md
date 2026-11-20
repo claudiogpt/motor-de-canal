@@ -12,7 +12,7 @@ Mirar 35 a 50 caracteres, porque o celular corta perto dos 50.
 
 **Recomendado:** 
 
-**Aprovado pelo Cláudio:** (pendente)
+**Aprovado pelo dono do canal:** (pendente)
 
 ---
 Instagram não tem título. A primeira linha de `legenda/instagram.txt` faz esse papel.

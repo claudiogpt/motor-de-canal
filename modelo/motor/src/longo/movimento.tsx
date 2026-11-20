@@ -3,7 +3,7 @@
  *
  * Por que isto existe: ate 05/11/2026 toda cena do longo era um fade de 10
  * frames e depois tela parada. Em Reel de 30 s isso passa; em 13 minutos o
- * video parece um slide atras do outro, e o Claudio reprovou com essas
+ * video parece um slide atras do outro, e o dono do canal reprovou com essas
  * palavras ("queria mais movimento, motion design"). O que falta nao e
  * animacao de entrada, e movimento CONTINUO: alguma coisa precisa estar
  * andando enquanto a voz fala.

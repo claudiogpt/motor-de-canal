@@ -34,7 +34,7 @@ const Moldura: React.FC<{ children: React.ReactNode }> = ({ children }) => (
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
-      // TODO slide centrado no eixo vertical, por decisao do Claudio em
+      // TODO slide centrado no eixo vertical, por decisao do dono do canal em
       // 05/11/2026. A versao anterior ancorava no topo e deixava o vazio
       // embaixo, buscando a assimetria da identidade; na folha de contato isso
       // leu como slide inacabado, nao como composicao.

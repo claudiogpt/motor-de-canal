@@ -1,7 +1,7 @@
 /**
  * Folha de contato do mascote: as duas propostas, com todas as expressoes.
  *
- * Existe para o Claudio escolher o personagem olhando, e nao pela descricao.
+ * Existe para o dono do canal escolher o personagem olhando, e nao pela descricao.
  * Nao entra em video nenhum: e composicao de conferencia, como a `Capa`.
  */
 

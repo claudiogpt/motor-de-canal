@@ -7,7 +7,7 @@ import type { BatidaMedida, Saida } from "../tipos";
 /**
  * A conta no topo e, embaixo, as saidas com quem acaba pagando cada uma.
  * O tipo continua se chamando "setas" para nao quebrar os reel.json, mas as
- * setas desenhadas sairam em 23/10/2026: o Claudio achou feias. Os cartoes
+ * setas desenhadas sairam: o dono do canal achou feias. Os cartoes
  * entram um por vez, centralizados, e o "quem paga" vai na cor de custo.
  * Cada cartao entra na batida da fala que o enuncia.
  */

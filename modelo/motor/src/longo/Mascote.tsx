@@ -1,7 +1,7 @@
 /**
  * O professor do canal: um personagem 2D com expressoes.
  *
- * Pedido do Claudio em 05/11/2026: "um pet, um personagem 2d pra gnt usar nos
+ * Pedido do dono do canal: "um pet, um personagem 2d pra gnt usar nos
  * videos como professor, com expressoes criativas, isso engaja". Em 05/11 ele
  * reprovou a capivara e pediu mais opcoes "no estilo coruja": silhueta
  * redonda, olhos grandes, sobrancelha grossa.
@@ -171,7 +171,7 @@ type Props = { humor?: Humor; t?: number; tam?: number };
 
 // --------------------------------------------------------------------- coruja
 /**
- * A CORUJA e o mascote do canal, escolhida pelo Claudio em 05/11/2026 entre
+ * A CORUJA e o mascote do canal, escolhida pelo dono do canal entre
  * capivara (reprovada), tatu-bola, jabuti e raposa.
  *
  * Le "professor" na primeira olhada, e os olhos grandes carregam expressao

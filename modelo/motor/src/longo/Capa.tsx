@@ -6,7 +6,7 @@ import { c, fonts } from "../brand";
  * Capas 16:9 do video longo, 1280x720, desenhadas em SVG.
  *
  * POR QUE EM REMOTION E NAO EM PIL. A primeira leva de capas era tipografia
- * pura, feita com PIL, e o Claudio reprovou: numa grade de miniaturas, so
+ * pura, feita com PIL, e o dono do canal reprovou: numa grade de miniaturas, so
  * texto e o que o olho pula. Ilustracao exige vetor, e o projeto ja tem
  * Chromium pelo Remotion. Desenhar aqui tambem mantem a marca numa fonte so.
  *

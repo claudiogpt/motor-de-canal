@@ -4,7 +4,7 @@ import type { Marca, Slide } from "./tipos";
  * Decide se o slide leva losango no rodape e, se levar, se ele sai CHEIO
  * (fato) ou VAZADO (hipotese). `null` significa nenhum losango.
  *
- * REGRA, decidida pelo Claudio em 05/11/2026: O LOSANGO SO MARCA NUMERO.
+ * REGRA, decidida pelo dono do canal: O LOSANGO SO MARCA NUMERO.
  *
  * Slide de prosa nao recebe marca nenhuma. Argumento nao e fato nem hipotese
  * no sentido que a identidade da a essas palavras; marcar prosa gastaria o

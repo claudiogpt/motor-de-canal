@@ -1,7 +1,7 @@
 # Primeira linha da legenda · DIA_AQUI
 
 O Instagram não tem campo de título. A primeira linha da legenda faz esse papel.
-Três opções, o Cláudio escolhe antes de publicar.
+Três opções. O dono do canal escolhe antes de publicar.
 
 ### 1. Recomendada
 

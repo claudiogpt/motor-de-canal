@@ -98,7 +98,7 @@ const Cena: React.FC<{ bloco: Bloco; batidas: BatidaMedida[] }> = ({ bloco, bati
  *
  * Nao existe mais pilula de legenda nos blocos de conteudo. O texto na tela e
  * o proprio grafico da cena, que se monta batida por batida enquanto a voz
- * fala (decisao do Claudio em 27/10/2026).
+ * fala (decisao do dono do canal).
  */
 export const Reel: React.FC<ReelProps> = ({ serie, blocos, tempos, audioBase }) => {
   const { fps } = useVideoConfig();
