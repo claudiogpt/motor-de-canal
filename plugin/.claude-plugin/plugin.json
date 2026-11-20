@@ -2,6 +2,12 @@
   "name": "motor-de-canal",
   "description": "Framework de canais automáticos de vídeo curto. Extraído de um canal em operação, não de teoria.",
   "version": "1.0.0",
-  "author": { "name": "Cláudio Augusto" },
-  "license": "MIT"
+  "author": {
+    "name": "Cláudio Augusto"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/claudiogpt/motor-de-canal",
+  "repository": "https://github.com/claudiogpt/motor-de-canal",
+  "documentationUrl": "https://github.com/claudiogpt/motor-de-canal/tree/main/docs",
+  "supportUrl": "https://github.com/claudiogpt/motor-de-canal/issues"
 }
