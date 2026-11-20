@@ -1,6 +1,6 @@
 {
   "name": "motor-de-canal",
-  "description": "Framework de canais automáticos de vídeo curto. Extraído de um canal em operação, não de teoria.",
+  "description": "Cria e opera canais automáticos de vídeo curto: o tempo sai do áudio medido e o layout é conferido por medição. Doutrina e comandos; o motor de render vem do repositório.",
   "version": "1.0.0",
   "author": {
     "name": "Cláudio Augusto"
