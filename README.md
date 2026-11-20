@@ -5,80 +5,101 @@ Framework para gerar e operar canais de vídeo curto no YouTube e no Instagram.
 Não é teoria. Saiu de um canal em produção (18 vídeos, 4 formatos, 3.085 views
 no primeiro mês), e **cada regra aqui existe porque algo deu errado antes**.
 
-## O que ele faz
+## O sistema inteiro, de uma vez
 
-Do conceito ao MP4 publicado, com o tempo saindo do áudio medido e o layout
-conferido por medidor:
+```mermaid
+flowchart LR
+    subgraph VOCE["você escreve"]
+        R["roteiro.md<br/><i>notas visuais na 2ª coluna</i>"]
+        J["reel.json<br/><b>falas, sem duração</b>"]
+    end
 
-| Formato | Tamanho | Para onde |
-| --- | --- | --- |
-| Reel / Short | 1080x1920 | Instagram e YouTube |
-| Vídeo longo | 1920x1080 | YouTube |
-| Carrossel | 1080x1350 | Instagram |
-| História animada | os dois | personagens desenhados por código |
+    subgraph MOTOR["o motor faz"]
+        N["narrar.py<br/>1 áudio por fala<br/><b>e MEDE cada um</b>"]
+        T[("audio/tempos.json")]
+        RE["renderizar.sh<br/>deriva o tempo<br/>da medição"]
+        ME["medir-*.py<br/>área segura, volume"]
+    end
 
-## A ideia central
+    subgraph SAI["sai"]
+        MP4["MP4 com a voz dentro<br/><i>sem mux depois</i>"]
+    end
 
-**O áudio manda no tempo.**
+    R --> J --> N --> T --> RE --> MP4 --> ME
+    T -.->|"cada elemento entra<br/>na batida da sua fala"| RE
 
-O JSON do vídeo não declara duração nenhuma. Ele declara **falas**. Um script
-gera um arquivo de áudio por fala, mede cada um, e o render deriva a duração de
-cada bloco dessa medição. Cada elemento do gráfico entra na batida da fala que
-o enuncia.
+    style J fill:#2a2518,stroke:#C9A227,color:#F2F2F0
+    style T fill:#2a2518,stroke:#C9A227,color:#F2F2F0
+    style MP4 fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
+```
 
-**Não existe passo de mux depois do render**, e por isso não existe como a voz e
-a tela saírem de sincronia: não há dois relógios para divergir, há um.
+**O áudio manda no tempo.** O JSON não declara duração nenhuma: declara
+**falas**. Não existe passo de mux depois do render, então não existe como a
+voz e a tela saírem de sincronia — não há dois relógios para divergir, há um.
 
-Antes dessa inversão, medido em nove vídeos: 76,6 segundos de tela parada sem
-ninguém falando, 18% da semana, e a legenda sempre adiantada.
+## Os quatro formatos
+
+| | Tamanho | Para onde | Comando |
+| --- | --- | --- | --- |
+| 📱 Reel / Short | 1080×1920 | Instagram + YouTube | `./renderizar.sh` |
+| 🖥 Vídeo longo | 1920×1080 | YouTube | `./renderizar.sh` |
+| 🖼 Carrossel | 1080×1350 | Instagram | `./renderizar-carrossel.sh` |
+| 🎭 História animada | os dois | personagens por código | `./renderizar.sh` |
 
 ## Começar
 
-```bash
-# 1. instalar o plugin (dá as skills ao Claude Code)
-claude plugin marketplace add <caminho-deste-repo>
-claude plugin install motor-de-canal@motor-de-canal
+```mermaid
+flowchart TD
+    A{"Usa Claude Code?"} -->|sim| B["claude plugin marketplace add &lt;repo&gt;<br/>claude plugin install motor-de-canal@motor-de-canal"]
+    B --> C["/canal-novo meu-canal"]
+    A -->|não| D["cp -r modelo meu-canal<br/>npm --prefix motor install"]
+    C --> E["edita canal.json e marca/marca.json"]
+    D --> E
+    E --> F["narrar → renderizar → medir"]
+    F --> G{"os três passaram?"}
+    G -->|sim| H["pode produzir"]
+    G -->|não| E
 
-# 2. criar um canal
-/canal-novo meu-canal
+    style H fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
 ```
-
-Ou, sem a IA:
 
 ```bash
 cp -r modelo meu-canal && cd meu-canal
 npm --prefix motor install
-# edite canal.json e marca/marca.json
 python3 -I ferramentas/narrar.py conteudo/exemplo-tres-alugueis
 ./renderizar.sh conteudo/exemplo-tres-alugueis
 python3 -I ferramentas/medir-reel.py conteudo/exemplo-tres-alugueis/out/reel.mp4
 ```
 
-**Isso roda sem chave, sem GPU e sem custo.** O adaptador de voz padrão
-(`estimativa`) gera silêncio do tamanho exato que a fala teria, então você monta,
-renderiza, mede e revisa o vídeo inteiro de graça. Só a publicação exige voz de
-verdade.
+**Roda sem chave, sem GPU e sem custo.** O adaptador de voz padrão
+(`estimativa`) gera silêncio do tamanho exato que a fala teria, então você
+monta, renderiza, mede e revisa o vídeo inteiro de graça. Só a publicação
+exige voz de verdade.
 
-## O que você precisa ter
+## Precisa ter
 
-- `ffmpeg` e `python3` (nada além da biblioteca padrão)
-- `node` 20+, para o Remotion
-- Opcional: uma conta no Modal, para a voz; uma conta de agendamento, para
-  publicar
+| | Para quê | Obrigatório |
+| --- | --- | --- |
+| `ffmpeg` + `python3` | medir, narrar, converter | **sim** |
+| `node` 20+ | Remotion | **sim** |
+| conta Modal | voz de verdade | não |
+| conta de agendamento | publicar por API | não |
+
+Python usa **só a biblioteca padrão**. Nada de `pip install`.
 
 ## Documentação
 
 | Para | Leia |
 | --- | --- |
-| Entender como funciona | [docs/01-como-funciona.md](docs/01-como-funciona.md) |
-| Criar o seu canal | [docs/02-criar-um-canal.md](docs/02-criar-um-canal.md) |
-| Produzir uma semana | [docs/03-producao-semanal.md](docs/03-producao-semanal.md) |
-| Histórias com personagens | [docs/04-historias-animadas.md](docs/04-historias-animadas.md) |
-| O que aprendemos errando | [docs/05-licoes-aprendidas.md](docs/05-licoes-aprendidas.md) |
+| Entender como funciona | [01 — Como funciona](docs/01-como-funciona.md) |
+| Criar o seu canal | [02 — Criar um canal](docs/02-criar-um-canal.md) |
+| Produzir uma semana | [03 — Produção semanal](docs/03-producao-semanal.md) |
+| Histórias com personagens | [04 — Histórias animadas](docs/04-historias-animadas.md) |
+| O que aprendemos errando | [05 — Lições aprendidas](docs/05-licoes-aprendidas.md) |
+| Publicar o plugin | [06 — Diretório da Anthropic](docs/06-publicar-no-diretorio.md) |
 
-A doutrina que a IA segue está em
-[skills/](skills/). Vale a leitura
-mesmo para quem não usa IA: é o manual do canal.
+A doutrina que a IA segue está em [skills/](skills/). Vale a leitura mesmo para
+quem não usa IA: é o manual do canal.
 
 ## Licença
 

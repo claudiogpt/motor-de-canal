@@ -2,21 +2,44 @@
 
 Para quem vai usar, não para quem vai mexer no código.
 
-## O problema que o framework resolve
+## Os três trabalhos chatos, e como o motor mata cada um
 
-Produzir vídeo curto em série tem três trabalhos chatos que se repetem toda
-semana, e que é onde o erro entra:
+| O trabalho que se repete | Feito à mão dá | O motor faz |
+| --- | --- | --- |
+| Encaixar a imagem no tempo da voz | desencaixa | **o áudio mede, o vídeo obedece** |
+| Conferir que nada ficou fora da tela | passa batido | **medidor por faixa, falha sozinho** |
+| Não deixar número da tela divergir da conta | diverge | **recalculado por script antes do render** |
 
-1. **Encaixar a imagem no tempo da voz.** Feito à mão, desencaixa.
-2. **Conferir que nada ficou fora da tela.** Feito a olho, passa.
-3. **Não deixar um número da tela divergir do número da conta.** Digitado duas
-   vezes, diverge.
-
-O framework resolve os três por construção, não por disciplina.
+---
 
 ## 1. O áudio manda no tempo
 
-Você escreve as **falas**. Não escreve duração.
+### O defeito que isto corrige
+
+```mermaid
+flowchart LR
+    subgraph ANTES["❌ antes: dois relógios"]
+        A1["você digita<br/>duracaoSegundos"] --> A2["render"]
+        A3["voz gerada<br/>por outro script"] --> A4["mux depois"]
+        A2 --> A4 --> A5["18% de tela parada<br/>legenda adiantada"]
+    end
+    style ANTES fill:#241a18,stroke:#B5452F,color:#F2F2F0
+    style A5 fill:#3a2420,stroke:#B5452F,color:#F2F2F0
+```
+
+```mermaid
+flowchart LR
+    subgraph AGORA["✅ agora: um relógio"]
+        B1["você escreve<br/><b>falas</b>"] --> B2["1 áudio por fala<br/><b>+ medição</b>"]
+        B2 --> B3[("tempos.json")]
+        B3 --> B4["render deriva<br/>a duração"]
+        B4 --> B5["MP4 já narrado<br/><b>sem mux</b>"]
+    end
+    style AGORA fill:#18241a,stroke:#5F7A58,color:#F2F2F0
+    style B5 fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
+```
+
+### Como você escreve
 
 ```json
 {
@@ -32,87 +55,128 @@ Você escreve as **falas**. Não escreve duração.
 }
 ```
 
-`naBatida: 1` quer dizer: **este elemento entra quando a segunda fala começar.**
+`naBatida: 1` = **este elemento entra quando a segunda fala começar.**
 
-O que acontece depois:
-
+```mermaid
+gantt
+    title O que naBatida faz na linha de tempo
+    dateFormat X
+    axisFormat %Ss
+    section voz
+    "fala 0: Hoje são 44 horas"        :done, f0, 0, 3
+    "fala 1: Em dezembro caem para 42" :done, f1, 3, 4
+    section tela
+    "degrau 44  (naBatida 0)"          :active, d0, 0, 7
+    "degrau 42  (naBatida 1)"          :active, d1, 3, 4
 ```
-narrar.py      gera um áudio por fala e mede cada um
-               → audio/tempos.json
-renderizar.sh  lê a medição e monta o vídeo com a voz dentro
-```
 
-Se você mudar uma fala, o gráfico acompanha sozinho no próximo render. Você
-nunca reajusta um número de tempo.
+Mudou a fala? O gráfico acompanha sozinho no próximo render. **Você nunca
+reajusta um número de tempo.**
+
+---
 
 ## 2. Mediu, não olhou
 
-Depois de todo render:
+Todos os defeitos de layout deste framework foram achados por medição. **Vários
+tinham passado por revisão humana antes.**
+
+### A armadilha das duas réguas
+
+Os ícones do Instagram ocupam a faixa direita **só no terço de baixo**:
+
+```
+        0                                   860   934  1080
+        ├────────────────────────────────────┼─────┼────┤
+  150   ┌─────────────────────────────────────────┐     │   ← topo da área segura
+        │                                         │     │
+        │          conteúdo pode ir até           │     │   limite: x=934
+        │                                  x=934 →│     │
+ 1280   ├─────────────────────────────┐···········┤     │   ← AQUI A RÉGUA MUDA
+        │   limite cai para x=860     │  ícones   │     │   curtir, comentar,
+        │                      x=860 →│  do app   │     │   compartilhar, áudio
+ 1480   └─────────────────────────────┴───────────┘     │   ← legenda do app
+        │              faixa da legenda                 │
+ 1920   └──────────────────────────────────────────────-┘
+```
+
+**Três vezes** um elemento cresceu em altura (nome longo, texto quebrando em
+duas linhas) e a base entrou na faixa estreita. Ninguém viu a olho. O medidor
+viu.
 
 ```bash
 python3 -I ferramentas/medir-reel.py conteudo/<dia>/out/reel.mp4
 ```
 
-Ele confere tamanho, volume, silêncio e as faixas da tela onde a interface do
-app cobre o vídeo. Devolve erro quando algo estoura.
+| O medidor pega | O medidor NÃO pega |
+| --- | --- |
+| estouro de margem, por faixa | texto vazando de um cartão no meio da tela |
+| tamanho e fps errados | a fala dizer uma coisa e a tela outra |
+| volume fora de −14 LUFS | fato errado com margem certa |
+| silêncio acima de 0,5 s | — |
 
-Isso não é zelo: **todos os defeitos de layout deste framework foram achados
-assim, e vários tinham passado por revisão humana antes.**
-
-Exemplo: os ícones do Instagram ocupam a faixa direita **só no terço de baixo**.
-Então o limite da direita é x=934 em cima e x=860 embaixo. Três vezes um
-elemento cresceu em altura (um nome longo, um texto que quebrou em duas linhas)
-e a base dele entrou na faixa estreita. Ninguém viu a olho. O medidor viu.
+---
 
 ## 3. Número se recalcula, não se digita duas vezes
 
 Se o vídeo mostra "62% é seu", esse 62% é **calculado por script** a partir dos
-valores, antes do render. Nunca escrito à mão no JSON.
+valores, antes do render. Quando o número está em dois lugares, um dia eles
+divergem — e o vídeo vai ao ar com a conta errada.
 
-Motivo: quando o número está em dois lugares, um dia eles divergem, e o vídeo vai
-ao ar com a conta errada.
+---
 
-## Os quatro arquivos que você edita
+## O mapa dos arquivos
 
-| Arquivo | O quê |
-| --- | --- |
-| `canal.json` | tema, linha editorial, pilares, séries, cadência, contas |
-| `marca/marca.json` | cores, tipografia, voz, mascote |
-| `conteudo/<dia>/roteiro.md` | o roteiro, com as notas visuais na 2ª coluna |
-| `conteudo/<dia>/reel.json` | o vídeo, em blocos e falas |
+```mermaid
+flowchart TD
+    subgraph EDITA["✏️ você edita"]
+        C["canal.json<br/><i>tema, linha, séries, cadência</i>"]
+        M["marca/marca.json<br/><i>cores, tipografia, voz</i>"]
+        RO["conteudo/&lt;dia&gt;/roteiro.md"]
+        RJ["conteudo/&lt;dia&gt;/reel.json"]
+    end
+    subgraph NUNCA["🔒 você NÃO edita"]
+        P["plataformas/*.json<br/><i>medidas da interface dos apps</i><br/><i>medidas em frame, valem p/ todo canal</i>"]
+    end
+    subgraph MOTOR["⚙️ o motor"]
+        MO["motor/  Remotion + motion-kit"]
+        FE["ferramentas/  narrar, medir, capas"]
+        AD["adaptadores/  voz e publicação"]
+    end
+    EDITA --> MOTOR
+    NUNCA --> MOTOR
 
-Você **não** edita `plataformas/*.json`. São as medidas da interface do
-Instagram e do YouTube, medidas em frame, e valem para qualquer canal.
-
-## Os comandos
-
-```bash
-./novo-video.sh 2026-11-20 meu-tema                # cria a pasta do vídeo
-python3 -I ferramentas/duracao.py conteudo/<dia>   # quanto vai durar
-python3 -I ferramentas/narrar.py  conteudo/<dia>   # gera e mede a voz
-./renderizar.sh                   conteudo/<dia>   # faz o MP4
-python3 -I ferramentas/medir-reel.py conteudo/<dia>/out/reel.mp4
+    style NUNCA fill:#241a18,stroke:#B5452F,color:#F2F2F0
+    style EDITA fill:#2a2518,stroke:#C9A227,color:#F2F2F0
 ```
 
-Nessa ordem. O render recusa rodar sem a narração, de propósito.
+---
+
+## Os comandos, na ordem
+
+```mermaid
+flowchart LR
+    N["./novo-video.sh<br/>AAAA-MM-DD slug"] --> D["duracao.py<br/><i>quanto vai durar</i>"]
+    D --> L["montar-legenda.py"]
+    L --> NA["narrar.py<br/><b>gera e MEDE</b>"]
+    NA --> R["renderizar.sh"]
+    R --> ME["medir-reel.py"]
+
+    R -.->|"sem tempos.json<br/>o render RECUSA"| NA
+    style NA fill:#2a2518,stroke:#C9A227,color:#F2F2F0
+```
 
 O `renderizar.sh` descobre o formato pelo arquivo que existe na pasta
 (`reel.json`, `longo.json`, `historia.json`) e desvia para o
 `renderizar-carrossel.sh` quando acha `carrossel.json`.
 
-Para carrossel:
-
-```bash
-./novo-carrossel.sh 2026-11-20 meu-tema
-./renderizar-carrossel.sh conteudo/<dia>     # já roda o medidor no fim
-```
+---
 
 ## Voz: três opções
 
-| Adaptador | Custo | Quando |
-| --- | --- | --- |
-| `estimativa` | zero | **padrão.** Silêncio do tamanho certo. Para montar e revisar. |
-| `kokoro` | centavos | produção. Voz de modelo, roda em CPU. |
-| `chatterbox` | centavos | a sua voz clonada, de uma gravação de referência. |
+| Adaptador | Custo | Precisa de | Quando |
+| --- | --- | --- | --- |
+| **`estimativa`** | **zero** | nada | **padrão.** Silêncio do tamanho certo. Montar e revisar. |
+| `kokoro` | centavos | `MODAL_TTS_URL` | produção. Voz de modelo, roda em CPU. |
+| `chatterbox` | centavos | URL + gravação sua | a sua voz clonada. |
 
-Trocar é uma linha no `canal.json`.
+Trocar é **uma linha** no `canal.json`.

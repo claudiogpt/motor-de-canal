@@ -1,105 +1,125 @@
 # Produzir uma semana
 
-## Com a IA
+Com a IA: `/produzir semana`. Ela para nos títulos e espera o seu sim.
 
+## O caminho inteiro, com a parada
+
+```mermaid
+flowchart TD
+    A["1. ler canal.json + CLAUDE.md"] --> B["2. escolher os conceitos"]
+    B --> C["3. CHECAR OS FATOS DATADOS"]
+    C --> D["4. roteiro.md<br/><i>2ª coluna = notas visuais</i>"]
+    D --> E["5. duracao.py<br/><i>antes de gastar GPU</i>"]
+    E --> F["6. montar o JSON<br/><i>LENDO as notas visuais</i>"]
+    F --> G["7. recalcular os números<br/>por script"]
+    G --> H["8. narrar.py"]
+    H --> I["9. renderizar.sh"]
+    I --> J["10. MEDIR"]
+    J --> K["11. montar-legenda.py"]
+    K --> L["12. titulos.md<br/>3 opções, 1 recomendada"]
+    L --> STOP{"🛑 VOCÊ APROVA<br/>OS TÍTULOS"}
+    STOP -->|sim| M["13. subir mídia<br/>+ criar os posts"]
+    STOP -->|não| D
+    M --> N["14. capas<br/>Instagram + YouTube"]
+    N --> O["15. conferir a fila"]
+    O --> P["16. DEPOIS DO AR<br/>capa do Short + oembed"]
+
+    style C fill:#2a2518,stroke:#C9A227,color:#F2F2F0
+    style J fill:#2a2518,stroke:#C9A227,color:#F2F2F0
+    style STOP fill:#3a2420,stroke:#B5452F,color:#F2F2F0
+    style P fill:#2a2518,stroke:#C9A227,color:#F2F2F0
 ```
-/produzir semana
-```
 
-Ela para com os títulos escritos e os vídeos medidos, e espera o seu sim antes
-de subir qualquer coisa.
+**Não suba mídia nem crie post antes do sim.** É a única parada obrigatória.
 
-## A ordem, e ela é dependência
+---
 
-```
- 1. ler canal.json e CLAUDE.md
- 2. escolher os conceitos
- 3. CHECAR OS FATOS DATADOS           ← antes de escrever, não depois
- 4. escrever roteiro.md                  2ª coluna = notas visuais
- 5. dimensionar                          duracao.py, antes de gastar GPU
- 6. montar reel.json                     LENDO as notas visuais
- 7. recalcular os números por script
- 8. narrar
- 9. renderizar
-10. MEDIR
-11. montar a legenda
-12. escrever titulos.md                  3 opções, 1 recomendada
-─── PARADA: você aprova os títulos ───
-13. subir mídia e criar os posts
-14. capa do Instagram e do YouTube
-15. conferir a fila
-16. DEPOIS DO AR: capa do Short e título por oembed
-```
+## As duas plataformas querem coisas OPOSTAS
 
-## Escolher o conceito: as plataformas querem coisas opostas
-
-Medido num canal, com o mesmo acervo:
+Mesmo acervo, mesmo canal:
 
 | Vídeo | YouTube | Instagram |
-| --- | --- | --- |
-| provocação filosófica | 1.113 views | 109 de alcance |
-| conta concreta de dinheiro | 7 views | **439 de alcance** |
+| --- | ---: | ---: |
+| provocação filosófica | **1.113** `████████████████` | 109 `██` |
+| conta concreta de dinheiro | 7 `▏` | **439** `██████` |
 
-**Instagram premia dinheiro concreto. YouTube premia provocação filosófica.**
-Meça no seu canal antes de generalizar, mas não assuma que o que funciona num
-lugar funciona no outro.
+```mermaid
+flowchart LR
+    Y["📺 YouTube"] --> YP["provocação filosófica"]
+    I["📱 Instagram"] --> IP["conta concreta<br/>de dinheiro"]
+    style YP fill:#2a2518,stroke:#C9A227,color:#F2F2F0
+    style IP fill:#2a2518,stroke:#C9A227,color:#F2F2F0
+```
+
+Meça no seu canal antes de generalizar. Mas **não assuma que o que funciona num
+lugar funciona no outro.**
+
+---
 
 ## Título: duas regras vindas de dado
 
-- **Rótulo ideológico mata o alcance.** Num ranking de nicho,
-  "libertarianismo explicado" teve mediana de **66 views** contra **316 mil** de
-  "economia explicada rápido". Vale para qualquer rótulo de tribo.
-- **Use o termo que as pessoas buscam.** "escala 6x1" devolve o assunto; "6x1"
-  devolve placar de futebol.
+| Regra | Evidência |
+| --- | --- |
+| **Rótulo ideológico mata o alcance** | "libertarianismo explicado" → mediana **66** views · "economia explicada rápido" → **316 mil** |
+| **Use o termo que as pessoas buscam** | "escala 6x1" → o assunto · "6x1" → placar de futebol |
 
-O título vai em `titulos.md` com 3 opções e uma recomendada. **Guarde o porquê
-da recomendação**: quando você escolhe outra e o vídeo vai mal, o registro é o
-que permite aprender.
+3 opções em `titulos.md`, 1 recomendada. **Guarde o porquê da recomendação:**
+quando você escolhe outra e o vídeo vai mal, o registro é o que permite
+aprender.
 
-## Checar os fatos antes de escrever
+---
 
-Lei, decisão judicial, número oficial e política pública mudam. Rechecar na
-fonte primária **antes** de escrever economiza um render inteiro.
+## Checar os fatos ANTES de escrever
 
-Coisas que mudaram entre o plano e o roteiro, em casos reais:
+```mermaid
+flowchart LR
+    A["fato datado<br/><i>lei, decisão, número oficial</i>"] --> B{"fonte primária,<br/>lida no original?"}
+    B -->|sim| C["usa"]
+    B -->|"só resumo"| D["NÃO usa"]
+    B -->|"não achou"| E["tira a afirmação"]
+    style C fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
+    style D fill:#3a2420,stroke:#B5452F,color:#F2F2F0
+    style E fill:#3a2420,stroke:#B5452F,color:#F2F2F0
+```
 
-- um artigo de decreto-lei que, lido no original, **não fixava** o prazo que os
-  resumos diziam;
-- a data exata de vigência de uma emenda;
-- um artigo que delega um número a lei complementar em vez de fixá-lo.
+**Resumo de terceiro já contradisse a lei em três casos num só canal** —
+inclusive uma página oficial desatualizada contra a própria lei que ela resume.
 
-**Resumo de terceiro não serve.** Ele já contradisse a lei em três casos num só
-canal, inclusive uma página oficial que estava desatualizada contra a própria
-lei que ela resume.
+> ⚠️ **Gancho com data.** "Hoje a República faz 137 anos" num vídeo que vai ao
+> ar quatro dias depois está errado, e consertar implica **narração nova e
+> render novo**. Decida a data de publicação antes de escrever o gancho.
 
-## Gancho que depende de data
+---
 
-"Hoje a República faz 137 anos" num vídeo que vai ao ar quatro dias depois está
-errado. Isso implica narração nova e render novo, então **decida a data de
-publicação antes de escrever o gancho**.
-
-## A parada do passo 12 é real
-
-Não suba mídia nem crie post antes de aprovar os títulos. Depois de agendado,
-o que dá e o que não dá para corrigir:
+## O que dá e o que NÃO dá para corrigir depois
 
 | | YouTube | Instagram |
-| --- | --- | --- |
-| título | sim | — (não tem campo) |
-| descrição / legenda | sim | **não, por API** |
-| capa | sim, depois do ar | **não, só no app à mão** |
-| áudio | **não** | **não** |
+| --- | :---: | :---: |
+| título | ✅ | — *(não tem campo)* |
+| descrição / legenda | ✅ | ❌ *(API não cobre)* |
+| capa | ✅ *depois do ar* | ❌ *só à mão no app* |
+| **áudio** | ❌ | ❌ |
 
-Uma narração que afirmou algo sem ressalva não se conserta. A descrição dá para
-editar; a fala não.
+Uma narração que afirmou algo sem ressalva **não se conserta**. A descrição dá
+para editar; a fala não.
+
+---
 
 ## Depois do ar, e nada dispara sozinho
 
-- aplicar a **capa do Short** (não dá para mandar no agendamento);
-- conferir o título por **oembed**;
-- conferir a capa do Instagram **na grade do perfil**.
+| Passo | Confira onde |
+| --- | --- |
+| aplicar a capa do Short | URL **assinada** (`yt-dlp --dump-json`) |
+| conferir o título | **oembed** |
+| conferir a capa do Reel | **grade do perfil** |
+
+Nunca pelo campo de analytics: ele serve um asset cacheado e **já indicou falha
+numa correção que tinha funcionado**.
+
+---
 
 ## Custo
 
-Uma semana de 9 vídeos narrados custa menos de US$ 0,50. O que custa caro é
-refazer, e o que faz refazer é pular a medição.
+**< US$ 0,50** por semana de 9 vídeos narrados.
+
+O que custa caro é refazer. O que faz refazer é pular a medição.
