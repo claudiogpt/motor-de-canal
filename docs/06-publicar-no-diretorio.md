@@ -138,6 +138,28 @@ um `git clone --depth 1` do repositório.
 | Sem credencial embutida | ✅ chave só em variável de ambiente |
 | Repositório público | ✅ |
 
+## A Policy, lida em 20/11/2026
+
+O validador do portal não lê a
+[Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy).
+Quem lê é o revisor humano, depois. Três itens decidem este caso.
+
+| Item | O que diz | Para nós |
+| --- | --- | --- |
+| **4.B** | *"Software that uses AI models to generate images, video, or audio content"*, com "text-to-speech" entre os subitens | **risco real de recusa**. A seção abre com *"Unless otherwise expressly permitted by us in writing"* |
+| **3.A** | exige política de privacidade de quem *"collects user data **or** connects to a remote service"* | o "or" não dá escapatória: vale mesmo sem coletar dado pessoal. Resolvido com `PRIVACIDADE.md` e `privacyPolicyUrl` |
+| **2.F** | *"Instructional Software must not direct Claude to dynamically pull behavioral instructions from external sources"* | o `git clone` do motor traz **código que o usuário roda**, não instrução de comportamento para o Claude. A distinção importa |
+
+**O 4.B é o item que pode derrubar a submissão**, e nenhuma correção nossa o
+resolve: ele fala de capacidade, não de arquivo. O argumento a favor é que o
+adaptador padrão de voz é `estimativa`, que gera silêncio do tamanho certo,
+roda local e não usa modelo nenhum; o TTS é opcional, fica fora do plugin e
+usa o endpoint do próprio usuário. O argumento contra é que o fluxo
+documentado produz áudio com modelo. Quem decide é o revisor.
+
+Nada nas duas páginas exige inglês, e nada proíbe conteúdo opinativo ou
+político. O idioma não é problema.
+
 ## Três armadilhas
 
 **O ícone é tiro único.** Ele vira o ícone do listing **uma vez**, na primeira
