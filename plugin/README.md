@@ -48,6 +48,21 @@ Depois, `/canal-novo <pasta>`.
 | `producao-semanal` | a rodada de produção, do conceito ao agendamento |
 | `documentacao-visual` | documentação para humanos é gráfico primeiro |
 
+## O que sai da sua máquina
+
+O plugin em si é texto: skills e comandos. Ele não lê dado pessoal, não guarda
+nada e não tem serviço do outro lado. Mas dois **passos que ele instrui** falam
+com serviço de terceiro, e quem roda é você, com as suas chaves:
+
+| Passo | Para onde vai | O que vai |
+| --- | --- | --- |
+| narração (`/produzir`) | o **seu** endpoint de TTS, se você configurar um (`MODAL_TTS_URL`) | o texto das falas do vídeo |
+| publicação (`/publicar`) | a **sua** API de publicação e, por ela, Instagram e YouTube | o vídeo, a capa e a legenda |
+
+Nenhum dos dois é obrigatório. O adaptador padrão de voz (`estimativa`) roda
+local, sem chave e sem rede, e o de publicação (`manual`) só prepara a pasta.
+Nenhuma chave vem com o plugin: elas ficam no `.env` do seu canal.
+
 ## Repositório, documentação e licença
 
 Código, motor e os seis guias: <https://github.com/claudiogpt/motor-de-canal>
