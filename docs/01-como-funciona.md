@@ -59,10 +59,10 @@ Aí o `narrar.py` faz **um arquivo de áudio para cada fala** — não um só pa
 bloco inteiro — e **mede cada arquivo com um cronômetro**:
 
 ```
-  VOCÊ ESCREVE                      O MOTOR GERA           E MEDE
-  ─────────────────────────────────────────────────────────────────
-  falas[0] "Hoje são 44 horas."  →  audio/b01-00.wav   →   2,80 s
-  falas[1] "Em dezembro caem…"   →  audio/b01-01.wav   →   3,40 s
+  a fala que você escreveu     vira um arquivo    que mede
+  ──────────────────────────────────────────────────────────
+  "Hoje são 44 horas."     →   b01-00.wav     →   2,80 s
+  "Em dezembro caem…"      →   b01-01.wav     →   3,40 s
 ```
 
 **Por que um arquivo por fala, e não um por bloco?** Porque é a única forma de
@@ -77,10 +77,9 @@ isso que o gráfico precisa saber.
 O motor soma os pedaços medidos, e o resultado **é** a duração do bloco:
 
 ```
-   2,80 s   +   0,12 s   +   3,40 s   +   0,30 s   =   6,62 s
-   └ fala 0 ┘   └respiro┘   └ fala 1 ┘   └respiro┘      └ duração do bloco ┘
-                 entre                    no fim
-                 falas                    do bloco
+   2,80  +  0,12  +  3,40  +  0,30   =   6,62 s
+   fala0    pausa    fala1    pausa       ← duração do bloco
+            entre             no fim
 ```
 
 Ninguém digitou 6,62. **Ele saiu da medição.** Se você trocar uma palavra na
@@ -95,22 +94,21 @@ O motor agora sabe que a fala 0 começa em **0,00 s** e a fala 1 em **2,92 s**.
 Então `naBatida` vira posição real na tela:
 
 ```
-             0s        1s        2s        3s        4s        5s        6s
-             ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼──
-                                           ▲
-                                      2,92 s
-  🔊 voz     ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-             "Hoje são quarenta e         "Em dezembro caem para
-              quatro horas."               quarenta e duas."
+         0s      1s      2s      3s      4s      5s      6s
+         ├───────┼───────┼───────┼───────┼───────┼───────┼─
+                               ▲ 2,92 s
+  voz    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+         "Hoje são quarenta     "Em dezembro caem para
+          e quatro horas."       quarenta e duas."
 
-  🖥 tela    ┌──────────────────────────────────────────────────────────────
-  naBatida 0 │  44  antes
-  naBatida 1 │                             42  agora
-             └──────────────────────────────────────────────────────────────
-                                           ↑
-                            o "42" aparece no frame EXATO em que a voz
-                            começa a dizer "Em dezembro" — não 7 frames
-                            depois, não 0,8 s depois
+  tela   ┌──────────────────────────────────────────────────
+  bat.0  │ 44  antes
+  bat.1  │                      42  agora
+         └──────────────────────────────────────────────────
+                               ↑
+              o "42" entra no frame EXATO em que a voz
+              começa a dizer "Em dezembro". Não 7 frames
+              depois. Não 0,8 s depois.
 ```
 
 E como o áudio de cada fala já é posto na linha de tempo nesse mesmo instante,
@@ -167,18 +165,18 @@ tinham passado por revisão humana antes.**
 Os ícones do Instagram ocupam a faixa direita **só no terço de baixo**:
 
 ```
-        0                                   860   934  1080
-        ├────────────────────────────────────┼─────┼────┤
-  150   ┌─────────────────────────────────────────┐     │   ← topo da área segura
-        │                                         │     │
-        │          conteúdo pode ir até           │     │   limite: x=934
-        │                                  x=934 →│     │
- 1280   ├─────────────────────────────┐···········┤     │   ← AQUI A RÉGUA MUDA
-        │   limite cai para x=860     │  ícones   │     │   curtir, comentar,
-        │                      x=860 →│  do app   │     │   compartilhar, áudio
- 1480   └─────────────────────────────┴───────────┘     │   ← legenda do app
-        │              faixa da legenda                 │
- 1920   └──────────────────────────────────────────────-┘
+       0                            860  934 1080
+       ├─────────────────────────────┼────┼───┤
+ 150   ┌──────────────────────────────────┐   │  ← topo seguro
+       │                                  │   │
+       │    conteúdo pode ir até ──→ x=934│   │
+       │                                  │   │
+1280   ├──────────────────────┐···········┤   │  ← A RÉGUA MUDA
+       │  limite cai p/ x=860 │  ícones   │   │     curtir,
+       │                 x=860│  do app   │   │     comentar,
+1480   └──────────────────────┴───────────┘   │     compartilhar
+       │        faixa da legenda do app       │
+1920   └──────────────────────────────────────┘
 ```
 
 **Três vezes** um elemento cresceu em altura (nome longo, texto quebrando em
@@ -211,13 +209,13 @@ divergem — e o vídeo vai ao ar com a conta errada.
 ```mermaid
 flowchart TD
     subgraph EDITA["✏️ você edita"]
-        C["canal.json<br/><i>tema, linha, séries, cadência</i>"]
-        M["marca/marca.json<br/><i>cores, tipografia, voz</i>"]
+        C["canal.json<br/>tema, linha, séries, cadência"]
+        M["marca/marca.json<br/>cores, tipografia, voz"]
         RO["conteudo/&lt;dia&gt;/roteiro.md"]
         RJ["conteudo/&lt;dia&gt;/reel.json"]
     end
     subgraph NUNCA["🔒 você NÃO edita"]
-        P["plataformas/*.json<br/><i>medidas da interface dos apps</i><br/><i>medidas em frame, valem p/ todo canal</i>"]
+        P["plataformas/*.json<br/>medidas da interface dos apps<br/>medidas em frame, valem p/ todo canal"]
     end
     subgraph MOTOR["⚙️ o motor"]
         MO["motor/  Remotion + motion-kit"]
@@ -237,7 +235,7 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    N["./novo-video.sh<br/>AAAA-MM-DD slug"] --> D["duracao.py<br/><i>quanto vai durar</i>"]
+    N["./novo-video.sh<br/>AAAA-MM-DD slug"] --> D["duracao.py<br/>quanto vai durar"]
     D --> L["montar-legenda.py"]
     L --> NA["narrar.py<br/><b>gera e MEDE</b>"]
     NA --> R["renderizar.sh"]

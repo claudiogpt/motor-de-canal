@@ -53,7 +53,7 @@ flowchart LR
     B -->|sim| C["entra"]
     B -->|resumo| D["NÃO entra"]
     B -->|não achou| E["TIRA a afirmação"]
-    F["origem não declarada"] --> G["cai para HIPÓTESE<br/><i>nunca para fato</i>"]
+    F["origem não declarada"] --> G["cai para HIPÓTESE<br/>nunca para fato"]
     style C fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
     style D fill:#3a2420,stroke:#B5452F,color:#F2F2F0
     style E fill:#3a2420,stroke:#B5452F,color:#F2F2F0

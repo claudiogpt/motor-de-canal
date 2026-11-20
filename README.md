@@ -10,7 +10,7 @@ no primeiro mês), e **cada regra aqui existe porque algo deu errado antes**.
 ```mermaid
 flowchart LR
     subgraph VOCE["você escreve"]
-        R["roteiro.md<br/><i>notas visuais na 2ª coluna</i>"]
+        R["roteiro.md<br/>notas visuais na 2ª coluna"]
         J["reel.json<br/><b>falas, sem duração</b>"]
     end
 
@@ -22,7 +22,7 @@ flowchart LR
     end
 
     subgraph SAI["sai"]
-        MP4["MP4 já sai narrado<br/><i>nada a colar depois</i>"]
+        MP4["MP4 já sai narrado<br/>nada a colar depois"]
     end
 
     R --> J --> N --> T --> RE --> MP4 --> ME

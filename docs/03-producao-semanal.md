@@ -8,9 +8,9 @@ Com a IA: `/produzir semana`. Ela para nos títulos e espera o seu sim.
 flowchart TD
     A["1. ler canal.json + CLAUDE.md"] --> B["2. escolher os conceitos"]
     B --> C["3. CHECAR OS FATOS DATADOS"]
-    C --> D["4. roteiro.md<br/><i>2ª coluna = notas visuais</i>"]
-    D --> E["5. duracao.py<br/><i>antes de gastar GPU</i>"]
-    E --> F["6. montar o JSON<br/><i>LENDO as notas visuais</i>"]
+    C --> D["4. roteiro.md<br/>2ª coluna = notas visuais"]
+    D --> E["5. duracao.py<br/>antes de gastar GPU"]
+    E --> F["6. montar o JSON<br/>LENDO as notas visuais"]
     F --> G["7. recalcular os números<br/>por script"]
     G --> H["8. narrar.py"]
     H --> I["9. renderizar.sh"]
@@ -73,7 +73,7 @@ aprender.
 
 ```mermaid
 flowchart LR
-    A["fato datado<br/><i>lei, decisão, número oficial</i>"] --> B{"fonte primária,<br/>lida no original?"}
+    A["fato datado<br/>lei, decisão, número oficial"] --> B{"fonte primária,<br/>lida no original?"}
     B -->|sim| C["usa"]
     B -->|"só resumo"| D["NÃO usa"]
     B -->|"não achou"| E["tira a afirmação"]

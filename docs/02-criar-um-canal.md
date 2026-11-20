@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TD
-    A{"Usa Claude Code?"} -->|sim| B["/canal-novo meu-canal<br/><i>entrevista, preenche, testa,<br/>escreve o CLAUDE.md</i>"]
+    A{"Usa Claude Code?"} -->|sim| B["/canal-novo meu-canal<br/>entrevista, preenche, testa,<br/>escreve o CLAUDE.md"]
     A -->|não| C["cp -r modelo meu-canal<br/>npm --prefix motor install"]
     B --> D["edite canal.json<br/>e marca/marca.json"]
     C --> D
@@ -36,7 +36,7 @@ as próprias cores.
 flowchart LR
     A["sua linha editorial"] --> B{"consegue RECUSAR<br/>um roteiro concreto?"}
     B -->|sim| C["é linha editorial"]
-    B -->|não| D["é slogan<br/><i>volte e reescreva</i>"]
+    B -->|não| D["é slogan<br/>volte e reescreva"]
     style C fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
     style D fill:#3a2420,stroke:#B5452F,color:#F2F2F0
 ```
