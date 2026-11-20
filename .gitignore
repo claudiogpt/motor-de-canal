@@ -22,3 +22,8 @@ __pycache__/
 .env
 .env.*
 !.env.exemplo
+
+# O hook instalado fica fora do versionamento: arquivo sem extensão começando
+# com #! é recusado pelo Diretório Anthropic. O modelo dele é
+# modelo/ferramentas/pre-push.sh, e a instalação copia para cá.
+.githooks/

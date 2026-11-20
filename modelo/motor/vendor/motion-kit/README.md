@@ -48,14 +48,10 @@ Copie `src/` para o projeto. Carregue `core.js` primeiro e apenas os módulos ne
 
 Node.js 20 ou superior. A biblioteca é destinada a navegadores modernos com SVG, Canvas 2D, DOMMatrix e DOMPoint. Não há suporte a SSR nem declaração TypeScript nesta versão.
 
-```sh
-npm test                         # utilitários, física, sintaxe e conteúdo
-npm ci                           # dependência de desenvolvimento dos testes visuais
-npx playwright install chromium  # necessário se não houver navegador compatível
-npm run test:browser              # exemplos, busca fora de ordem e diagnósticos reais de SVG
-```
-
-O teste de navegador também aceita `BROWSER_CHANNEL=msedge` ou `BROWSER_CHANNEL=chrome`, ou `BROWSER_EXECUTABLE` apontando para um executável local. No PowerShell: `$env:BROWSER_CHANNEL='msedge'`.
+Os comandos de teste e de instalação de navegador saíram desta cópia: para
+rodar a suíte da biblioteca, use o repositório de origem,
+<https://github.com/Gaok1/motion-kit>, e siga as instruções de lá. Aqui a
+biblioteca é só consumida, não testada: quem renderiza é o Remotion.
 
 Ao contribuir, mantenha a API genérica, acrescente um exemplo ou teste e não introduza assets de terceiros sem licença. A versão `0.x` ainda pode receber mudanças incompatíveis. O código em `src/` é a distribuição: não há etapa de build. `private: true` no `package.json` só impede publicação acidental no npm; o repositório é público.
 

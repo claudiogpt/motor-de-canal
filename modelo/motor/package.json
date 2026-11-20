@@ -1,12 +1,8 @@
 {
-  "name": "ancap-reels",
+  "name": "motor-de-canal",
   "version": "1.0.0",
   "private": true,
-  "description": "Sistema de producao de Reels 9:16 do Ancap Social Media",
-  "scripts": {
-    "studio": "remotion studio",
-    "render": "remotion render Reel"
-  },
+  "description": "Motor de render do canal (Remotion): Reel 9:16, longo 16:9, carrossel 4:5 e historia animada",
   "dependencies": {
     "@remotion/cli": "^4.0.0",
     "react": "^18.3.1",

@@ -105,11 +105,15 @@ Duas camadas, ~1 s para 20 diagramas:
 | regras estáticas | as armadilhas da tabela acima | nada |
 | **render de verdade** | qualquer diagrama que não desenha | Chrome |
 
-O hook `.githooks/pre-push` roda isso sozinho e **bloqueia o push**. Ligue com:
+O hook roda isso sozinho e **bloqueia o push**. Ligue com:
 
 ```bash
-git config core.hooksPath .githooks
+mkdir -p .githooks && cp ferramentas/pre-push.sh .githooks/pre-push && chmod +x .githooks/pre-push && git config core.hooksPath .githooks
 ```
+
+O arquivo instalado (`.githooks/pre-push`) fica **fora** do versionamento: um
+arquivo sem extensão que começa com `#!` é recusado pelo Diretório Anthropic.
+O que se versiona é o modelo, `ferramentas/pre-push.sh`.
 
 Arquivos para IA (`SKILL.md`, `CLAUDE.md`, `AGENTS.md`) ficam fora da regra de
 largura, porque quem os lê é o modelo.
