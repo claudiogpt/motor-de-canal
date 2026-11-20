@@ -264,20 +264,73 @@ def render_de_verdade(diagramas: list[dict]) -> list[str] | None:
 
 # ── principal ───────────────────────────────────────────────────────────────
 
+PASTAS_DE_FORA = {"node_modules", "vendor", ".git", "__pycache__", ".venv",
+                  "dist", "build", "repos", "site-packages"}
+"""Código e documentação de terceiros. Não é documentação SUA: reclamar da
+largura de um bloco num README que veio de outro projeto é ruído que faz o
+hook ser desligado, e hook desligado não protege nada."""
+
+
+def _versionados(raiz: Path) -> list[Path] | None:
+    """Só os .md que o git rastreia. Assim o que está no .gitignore (skills de
+    terceiros, dependências) fica de fora sozinho, sem lista de exceções."""
+    try:
+        r = subprocess.run(["git", "-C", str(raiz), "ls-files", "-z", "*.md"],
+                           capture_output=True, text=True, timeout=30)
+        if r.returncode != 0:
+            return None
+        return [raiz / n for n in r.stdout.split("\0") if n]
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+
+
+ARQ_IGNORAR = ".checar-docs-ignore"
+"""Um prefixo de caminho por linha, relativo à raiz. Para documentação de
+terceiros que o repositório versiona mas não mantém. Linha começando com # é
+comentário."""
+
+
+def _ignorados(raiz: Path) -> list[str]:
+    f = raiz / ARQ_IGNORAR
+    if not f.is_file():
+        return []
+    return [l.strip() for l in f.read_text(encoding="utf-8").splitlines()
+            if l.strip() and not l.strip().startswith("#")]
+
+
+def _filtra(ps: list[Path], padroes: list[str] | None = None) -> list[Path]:
+    padroes = padroes or []
+    saida = []
+    for p in ps:
+        if p.suffix != ".md" or not p.is_file():
+            continue
+        if PASTAS_DE_FORA & set(p.parts):
+            continue
+        s = str(p)
+        if any(pad in s for pad in padroes):
+            continue
+        saida.append(p)
+    return sorted(set(saida))
+
+
 def arquivos(alvos: list[str]) -> list[Path]:
     if not alvos:
         raiz = Path(__file__).resolve().parents[1]
-        base = [raiz.parent] if (raiz.parent / "docs").is_dir() else [raiz]
-        saida = []
-        for b in base:
-            saida += [p for p in b.rglob("*.md")
-                      if "node_modules" not in p.parts and "vendor" not in p.parts]
-        return sorted(set(saida))
-    saida = []
+        if not (raiz / "canal.json").is_file() and (raiz.parent / "docs").is_dir():
+            raiz = raiz.parent
+        alvos = [str(raiz)]
+
+    saida, padroes = [], []
     for a in alvos:
         p = Path(a)
-        saida += sorted(p.rglob("*.md")) if p.is_dir() else [p]
-    return [p for p in saida if p.suffix == ".md" and p.is_file()]
+        if p.is_dir():
+            padroes += _ignorados(p)
+            v = _versionados(p)
+            saida += v if v is not None else list(p.rglob("*.md"))
+        else:
+            saida.append(p)
+            padroes += _ignorados(p.resolve().parent)
+    return _filtra(saida, padroes)
 
 
 def main() -> int:

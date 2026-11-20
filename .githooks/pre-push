@@ -1,28 +1,29 @@
 #!/usr/bin/env bash
-# Trava o push se a documentação tiver diagrama que não renderiza.
+# Confere a documentação antes do push, SEM desligar os hooks que já existiam.
 #
-# Instalar (uma vez por clone):
-#   git config core.hooksPath .githooks
-#
-# Pular num caso específico:
-#   git push --no-verify
-#
-# POR QUE NO PRE-PUSH E NÃO NO PRE-COMMIT. Commit quebrado não machuca
-# ninguém; o estrago acontece quando a página publicada fica errada. E no
-# pre-commit isto rodaria dezenas de vezes por sessão sem motivo.
+# POR QUE A DELEGAÇÃO ABAIXO NÃO É OPCIONAL:
+# core.hooksPath substitui a pasta .git/hooks INTEIRA. Num repositório com Git
+# LFS, isso desliga o pre-push do LFS em silêncio, e os arquivos grandes param
+# de subir: o remoto fica com ponteiros apontando para objetos que não existem.
 set -uo pipefail
 
 RAIZ="$(git rev-parse --show-toplevel)"
+
+# 1. Primeiro o hook original (Git LFS e qualquer outro).
+if [ -x "$RAIZ/.git/hooks/pre-push" ]; then
+  "$RAIZ/.git/hooks/pre-push" "$@" || exit $?
+elif command -v git-lfs >/dev/null 2>&1 && [ -s "$RAIZ/.gitattributes" ] \
+     && grep -q "filter=lfs" "$RAIZ/.gitattributes" 2>/dev/null; then
+  git lfs pre-push "$@" || exit $?
+fi
+
+# 2. Depois a conferência da documentação.
 for c in "$RAIZ/modelo/ferramentas/checar-docs.py" \
          "$RAIZ/ferramentas/checar-docs.py" \
          "$HOME/.claude/skills/documentacao-visual/checar-docs.py"; do
   [ -f "$c" ] && CHECADOR="$c" && break
 done
-
-if [ -z "${CHECADOR:-}" ]; then
-  echo "pre-push: checar-docs.py não encontrado, seguindo sem verificar." >&2
-  exit 0
-fi
+[ -z "${CHECADOR:-}" ] && exit 0
 
 echo "pre-push: conferindo a documentação..."
 python3 -I "$CHECADOR" "$RAIZ" && exit 0
@@ -31,10 +32,7 @@ cat >&2 <<'FIM'
 
 PUSH BLOQUEADO: a documentação tem diagrama que não renderiza.
 
-Não é frescura de estilo. Diagrama com <i> no rótulo aparece EM BRANCO no
-GitHub, sem mensagem de erro nenhuma: quem abrir a página vê um retângulo
-vazio e não tem como saber que havia um desenho ali.
-
+Diagrama com <i> no rótulo aparece EM BRANCO no GitHub, sem erro nenhum.
 Corrija os achados acima, ou use --no-verify se souber o que está fazendo.
 FIM
 exit 1
