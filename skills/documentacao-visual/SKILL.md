@@ -74,6 +74,7 @@ Regras que saem disso:
 | Armadilha | O que acontece |
 | --- | --- |
 | **`<i>` no rótulo** | o diagrama renderiza **EM BRANCO, sem erro nenhum** |
+| **aspas dentro de rótulo entre aspas** | idem: `A["ele disse 'oi'"]` sai em branco |
 | dois-pontos no nome de tarefa do Gantt | quebra, mesmo entre aspas (`:` é o separador da sintaxe) |
 | bloco ASCII acima de ~72 colunas | ganha barra de rolagem horizontal, e some a leitura |
 | rótulo muito longo | o diagrama fica largo demais para a coluna do GitHub |
@@ -91,11 +92,32 @@ está quebrada — foi exatamente o que aconteceu aqui.
 O GitHub renderiza Mermaid dentro de um iframe isolado, então inspeção por
 script a partir da página **não alcança** os diagramas.
 
-**A única verificação válida é abrir a página publicada e olhar:**
+### Rode o checador ANTES do push
 
 ```bash
-git push
-# abra https://github.com/<user>/<repo>/blob/main/docs/<arquivo>.md
+python3 -I ferramentas/checar-docs.py .
+```
+
+Duas camadas, ~1 s para 20 diagramas:
+
+| Camada | O que pega | Precisa de |
+| --- | --- | --- |
+| regras estáticas | as armadilhas da tabela acima | nada |
+| **render de verdade** | qualquer diagrama que não desenha | Chrome |
+
+O hook `.githooks/pre-push` roda isso sozinho e **bloqueia o push**. Ligue com:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Arquivos para IA (`SKILL.md`, `CLAUDE.md`, `AGENTS.md`) ficam fora da regra de
+largura, porque quem os lê é o modelo.
+
+### E depois do push, abra a página e olhe
+
+```bash
+# https://github.com/<user>/<repo>/blob/main/docs/<arquivo>.md
 # role a página inteira e confira cada diagrama
 ```
 

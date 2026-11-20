@@ -122,7 +122,7 @@ E como o áudio de cada fala já é posto na linha de tempo nesse mesmo instante
 flowchart TD
     subgraph ANTES["❌ ANTES — dois relógios, e eles divergem"]
         direction LR
-        A1["você CHUTA<br/>'este bloco dura 8 s'"] --> A2["vídeo mudo<br/>montado no chute"]
+        A1["você CHUTA<br/>este bloco dura 8 s"] --> A2["vídeo mudo<br/>montado no chute"]
         A3["voz gravada<br/>à parte"] --> A4["colar a voz<br/>por cima no fim"]
         A2 --> A4
         A4 --> A5["a tela espera a voz<br/><b>18% do tempo parada</b>"]

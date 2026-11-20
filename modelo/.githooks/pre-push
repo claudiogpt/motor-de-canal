@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Trava o push se a documentação tiver diagrama que não renderiza.
+#
+# Instalar (uma vez por clone):
+#   git config core.hooksPath .githooks
+#
+# Pular num caso específico:
+#   git push --no-verify
+#
+# POR QUE NO PRE-PUSH E NÃO NO PRE-COMMIT. Commit quebrado não machuca
+# ninguém; o estrago acontece quando a página publicada fica errada. E no
+# pre-commit isto rodaria dezenas de vezes por sessão sem motivo.
+set -uo pipefail
+
+RAIZ="$(git rev-parse --show-toplevel)"
+for c in "$RAIZ/modelo/ferramentas/checar-docs.py" \
+         "$RAIZ/ferramentas/checar-docs.py" \
+         "$HOME/.claude/skills/documentacao-visual/checar-docs.py"; do
+  [ -f "$c" ] && CHECADOR="$c" && break
+done
+
+if [ -z "${CHECADOR:-}" ]; then
+  echo "pre-push: checar-docs.py não encontrado, seguindo sem verificar." >&2
+  exit 0
+fi
+
+echo "pre-push: conferindo a documentação..."
+python3 -I "$CHECADOR" "$RAIZ" && exit 0
+
+cat >&2 <<'FIM'
+
+PUSH BLOQUEADO: a documentação tem diagrama que não renderiza.
+
+Não é frescura de estilo. Diagrama com <i> no rótulo aparece EM BRANCO no
+GitHub, sem mensagem de erro nenhuma: quem abrir a página vê um retângulo
+vazio e não tem como saber que havia um desenho ali.
+
+Corrija os achados acima, ou use --no-verify se souber o que está fazendo.
+FIM
+exit 1

@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TD
-    A{"Usa Claude Code?"} -->|sim| B["/canal-novo meu-canal<br/>entrevista, preenche, testa,<br/>escreve o CLAUDE.md"]
+    A{"Usa Claude Code?"} -->|sim| B["/canal-novo meu-canal<br/>entrevista e testa"]
     A -->|não| C["cp -r modelo meu-canal<br/>npm --prefix motor install"]
     B --> D["edite canal.json<br/>e marca/marca.json"]
     C --> D

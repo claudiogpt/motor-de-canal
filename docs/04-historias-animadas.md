@@ -25,7 +25,7 @@ uma de cada vez, por motivos delas.
 flowchart TD
     J["historia.json<br/><b>falas + naBatida</b>"] --> N["narrar.py"]
     N --> T[("audio/tempos.json")]
-    T --> C["cues do motion-kit<br/>S.cue('b02-01') = segundo da fala"]
+    T --> C["cues do motion-kit<br/>S.cue b02-01 = segundo da fala"]
     T --> A["&lt;Audio&gt; por batida<br/>em Sequence, igual ao Reel"]
     C --> P["Palco.tsx<br/><b>UMA cena para o vídeo inteiro</b>"]
     P --> S["seek(frame/fps)<br/>em useLayoutEffect"]

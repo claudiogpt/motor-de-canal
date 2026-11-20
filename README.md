@@ -56,7 +56,7 @@ de sincronia — não há dois relógios para divergir, há um.
 
 ```mermaid
 flowchart TD
-    A{"Usa Claude Code?"} -->|sim| B["claude plugin marketplace add &lt;repo&gt;<br/>claude plugin install motor-de-canal@motor-de-canal"]
+    A{"Usa Claude Code?"} -->|sim| B["claude plugin<br/>marketplace add + install"]
     B --> C["/canal-novo meu-canal"]
     A -->|não| D["cp -r modelo meu-canal<br/>npm --prefix motor install"]
     C --> E["edita canal.json e marca/marca.json"]
