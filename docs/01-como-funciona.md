@@ -57,17 +57,23 @@ flowchart LR
 
 `naBatida: 1` = **este elemento entra quando a segunda fala começar.**
 
-```mermaid
-gantt
-    title O que naBatida faz na linha de tempo
-    dateFormat X
-    axisFormat %Ss
-    section voz
-    "fala 0: Hoje são 44 horas"        :done, f0, 0, 3
-    "fala 1: Em dezembro caem para 42" :done, f1, 3, 4
-    section tela
-    "degrau 44  (naBatida 0)"          :active, d0, 0, 7
-    "degrau 42  (naBatida 1)"          :active, d1, 3, 4
+```
+             0s        1s        2s        3s        4s        5s        6s   7s
+             ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼────┤
+                       batida 0                      batida 1
+                          ▼                             ▼
+  🔊 voz      ████████████████████████████  ██████████████████████████████████
+              "Hoje são quarenta e quatro   "Em dezembro caem para quarenta
+               horas."                       e duas."
+
+  🖥 tela     ┌──────────────────────────────────────────────────────────────┐
+   naBatida 0 │  44  antes                                                   │
+   naBatida 1 │                              42  agora ──────────────────────│
+              └──────────────────────────────────────────────────────────────┘
+                                            ↑
+                        o degrau 42 ENTRA no frame em que a voz
+                        começa a dizer "Em dezembro", não 7 frames
+                        depois nem 0,8 s depois
 ```
 
 Mudou a fala? O gráfico acompanha sozinho no próximo render. **Você nunca
