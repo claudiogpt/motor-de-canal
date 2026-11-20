@@ -7,11 +7,27 @@ O usuário quer criar um canal de vídeo novo. Pasta pedida: `$1`
 
 Carregue a skill `canal-novo` antes de qualquer coisa. Depois:
 
-## 1. Copie o modelo
+## 1. Pegue o modelo
 
-O modelo está em `modelo/` dentro deste plugin (suba a partir de
-`${CLAUDE_PLUGIN_ROOT}/modelo`). Copie para a pasta que o usuário pediu,
-ou para `./` se ele não disse.
+O motor **não vem dentro do plugin**: o Diretório Anthropic só aceita texto de
+organização não Verificada, e o motor é Python, TypeScript e shell. O plugin
+traz a doutrina e os comandos; o motor vem do repositório.
+
+Procure nesta ordem e **pare na primeira que existir**:
+
+1. `${CLAUDE_PLUGIN_ROOT}/../modelo` — existe quando o plugin foi instalado
+   pelo marketplace do repositório, que clona a árvore inteira;
+2. uma pasta `motor-de-canal/` que o usuário já tenha na máquina (pergunte);
+3. clone, num diretório temporário:
+
+```bash
+git clone --depth 1 https://github.com/claudiogpt/motor-de-canal /tmp/motor-de-canal-modelo
+```
+
+Copie `modelo/` de onde achou para a pasta que o usuário pediu, ou para `./`
+se ele não disse. O conteúdo de `modelo/` vira a **raiz** do canal: depois da
+cópia o canal tem `motor/`, `ferramentas/`, `marca/`, `canal.json` no primeiro
+nível, não dentro de um `modelo/`.
 
 Não copie: `conteudo/*/out/`, `conteudo/*/audio/`, `motor/node_modules`.
 

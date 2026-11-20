@@ -104,7 +104,7 @@ Python usa **só a biblioteca padrão**. Nada de `pip install`.
 | O que aprendemos errando | [05 — Lições aprendidas](docs/05-licoes-aprendidas.md) |
 | Publicar o plugin | [06 — Diretório da Anthropic](docs/06-publicar-no-diretorio.md) |
 
-A doutrina que a IA segue está em [skills/](skills/). Vale a leitura mesmo para
+A doutrina que a IA segue está em [plugin/skills/](plugin/skills/). Vale a leitura mesmo para
 quem não usa IA: é o manual do canal.
 
 ## Licença

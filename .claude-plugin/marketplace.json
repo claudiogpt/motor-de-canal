@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "motor-de-canal",
-      "source": "./",
+      "source": "./plugin",
       "description": "Cria e opera canais de vídeo curto. Roteiro, narração, render 9:16, 16:9, carrossel 4:5 e história animada, com o tempo saindo do áudio medido e o layout conferido por medidor. Em português do Brasil.",
       "license": "MIT"
     }
