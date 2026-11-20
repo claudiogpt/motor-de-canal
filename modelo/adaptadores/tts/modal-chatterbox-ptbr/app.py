@@ -119,7 +119,7 @@ image = (
     .run_function(_check_load)
 )
 
-app = modal.App("video-toolkit-chatterbox-ptbr")
+app = modal.App("motor-de-canal-chatterbox-ptbr")
 
 
 def _split_sentences(text: str, max_chars: int = 240) -> list[str]:

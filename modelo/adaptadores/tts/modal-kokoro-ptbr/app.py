@@ -74,7 +74,7 @@ image = (
     .run_function(_fetch_model)
 )
 
-app = modal.App("video-toolkit-kokoro-ptbr")
+app = modal.App("motor-de-canal-kokoro-ptbr")
 
 
 @app.cls(image=image, cpu=4, memory=4096, timeout=600, scaledown_window=60)
