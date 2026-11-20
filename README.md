@@ -22,7 +22,7 @@ flowchart LR
     end
 
     subgraph SAI["sai"]
-        MP4["MP4 com a voz dentro<br/><i>sem mux depois</i>"]
+        MP4["MP4 já sai narrado<br/><i>nada a colar depois</i>"]
     end
 
     R --> J --> N --> T --> RE --> MP4 --> ME
@@ -33,9 +33,15 @@ flowchart LR
     style MP4 fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
 ```
 
-**O áudio manda no tempo.** O JSON não declara duração nenhuma: declara
-**falas**. Não existe passo de mux depois do render, então não existe como a
-voz e a tela saírem de sincronia — não há dois relógios para divergir, há um.
+**O áudio manda no tempo.** Você escreve as **falas**; o JSON não declara
+duração nenhuma. O motor gera um arquivo de áudio por fala, **mede cada um com
+um cronômetro**, e a duração de cada bloco é a soma dessa medição.
+
+O MP4 sai da máquina **já narrado**: não existe o passo comum de gerar o vídeo
+mudo e colar a voz por cima no fim. Por isso a voz e a tela não têm como sair
+de sincronia — não há dois relógios para divergir, há um.
+
+→ [Como isso funciona, com os números](docs/01-como-funciona.md#1-o-áudio-manda-no-tempo)
 
 ## Os quatro formatos
 

@@ -14,70 +14,146 @@ Para quem vai usar, não para quem vai mexer no código.
 
 ## 1. O áudio manda no tempo
 
-### O defeito que isto corrige
+### Primeiro, as três palavras que você precisa
+
+| Palavra | O que é, sem jargão |
+| --- | --- |
+| **fala** | uma frase que o narrador diz. Você escreve; o computador lê em voz alta. |
+| **batida** | o **instante** em que uma fala começa. É a unidade de tempo do sistema: não é segundo, não é frame, é "quando a voz começa a dizer tal frase". |
+| **colar a voz depois** | gerar o vídeo mudo, gerar a voz separada, e juntar os dois no fim. É o jeito comum de fazer — e é exatamente o que este sistema **não** faz. *(no jargão: "mux")* |
+
+---
+
+### O problema, com número
+
+O jeito comum é: você **chuta** quanto cada parte do vídeo dura, monta o vídeo
+mudo com esses chutes, grava a voz, e cola a voz por cima no fim.
+
+O chute nunca bate com a voz real. Medido em nove vídeos de uma semana:
+
+```
+     tempo que a tela ficou parada esperando a voz terminar
+     ███████████████████ 76,6 segundos  =  18% da semana inteira
+     e no pior vídeo:  30%
+```
+
+E a legenda ficava sempre adiantada, porque ela seguia o chute e a voz seguia
+a si mesma.
+
+**Dois relógios. Eles nunca se encontram.**
+
+---
+
+### A inversão: ninguém chuta, o computador mede
+
+Você escreve **só as falas**. Nenhum número de tempo.
+
+```json
+"falas": [
+  "Hoje são quarenta e quatro horas.",
+  "Em dezembro caem para quarenta e duas."
+]
+```
+
+Aí o `narrar.py` faz **um arquivo de áudio para cada fala** — não um só para o
+bloco inteiro — e **mede cada arquivo com um cronômetro**:
+
+```
+  VOCÊ ESCREVE                      O MOTOR GERA           E MEDE
+  ─────────────────────────────────────────────────────────────────
+  falas[0] "Hoje são 44 horas."  →  audio/b01-00.wav   →   2,80 s
+  falas[1] "Em dezembro caem…"   →  audio/b01-01.wav   →   3,40 s
+```
+
+**Por que um arquivo por fala, e não um por bloco?** Porque é a única forma de
+saber **em que segundo cada frase começa**. Com um áudio só, você sabe que o
+bloco dura 6,6 s, mas não sabe quando a segunda frase entra — e é exatamente
+isso que o gráfico precisa saber.
+
+---
+
+### "O render deriva a duração" quer dizer esta conta
+
+O motor soma os pedaços medidos, e o resultado **é** a duração do bloco:
+
+```
+   2,80 s   +   0,12 s   +   3,40 s   +   0,30 s   =   6,62 s
+   └ fala 0 ┘   └respiro┘   └ fala 1 ┘   └respiro┘      └ duração do bloco ┘
+                 entre                    no fim
+                 falas                    do bloco
+```
+
+Ninguém digitou 6,62. **Ele saiu da medição.** Se você trocar uma palavra na
+fala, o áudio muda de tamanho, e 6,62 vira outro número sozinho, no próximo
+render.
+
+---
+
+### E é daí que sai o `naBatida`
+
+O motor agora sabe que a fala 0 começa em **0,00 s** e a fala 1 em **2,92 s**.
+Então `naBatida` vira posição real na tela:
+
+```
+             0s        1s        2s        3s        4s        5s        6s
+             ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼──
+                                           ▲
+                                      2,92 s
+  🔊 voz     ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+             "Hoje são quarenta e         "Em dezembro caem para
+              quatro horas."               quarenta e duas."
+
+  🖥 tela    ┌──────────────────────────────────────────────────────────────
+  naBatida 0 │  44  antes
+  naBatida 1 │                             42  agora
+             └──────────────────────────────────────────────────────────────
+                                           ↑
+                            o "42" aparece no frame EXATO em que a voz
+                            começa a dizer "Em dezembro" — não 7 frames
+                            depois, não 0,8 s depois
+```
+
+E como o áudio de cada fala já é posto na linha de tempo nesse mesmo instante,
+**o MP4 sai da máquina já narrado**. Não existe o passo de colar a voz depois.
+
+---
+
+### Antes e depois, lado a lado
 
 ```mermaid
-flowchart LR
-    subgraph ANTES["❌ antes: dois relógios"]
-        A1["você digita<br/>duracaoSegundos"] --> A2["render"]
-        A3["voz gerada<br/>por outro script"] --> A4["mux depois"]
-        A2 --> A4 --> A5["18% de tela parada<br/>legenda adiantada"]
+flowchart TD
+    subgraph ANTES["❌ ANTES — dois relógios, e eles divergem"]
+        direction LR
+        A1["você CHUTA<br/>'este bloco dura 8 s'"] --> A2["vídeo mudo<br/>montado no chute"]
+        A3["voz gravada<br/>à parte"] --> A4["colar a voz<br/>por cima no fim"]
+        A2 --> A4
+        A4 --> A5["a tela espera a voz<br/><b>18% do tempo parada</b>"]
     end
     style ANTES fill:#241a18,stroke:#B5452F,color:#F2F2F0
     style A5 fill:#3a2420,stroke:#B5452F,color:#F2F2F0
 ```
 
 ```mermaid
-flowchart LR
-    subgraph AGORA["✅ agora: um relógio"]
-        B1["você escreve<br/><b>falas</b>"] --> B2["1 áudio por fala<br/><b>+ medição</b>"]
-        B2 --> B3[("tempos.json")]
-        B3 --> B4["render deriva<br/>a duração"]
-        B4 --> B5["MP4 já narrado<br/><b>sem mux</b>"]
+flowchart TD
+    subgraph AGORA["✅ AGORA — um relógio só: a própria voz"]
+        direction LR
+        B1["você escreve<br/>só as FALAS"] --> B2["1 arquivo de áudio<br/>por fala"]
+        B2 --> B3["cronômetro mede<br/>cada arquivo"]
+        B3 --> B4[("tempos.json<br/>2,80s · 3,40s")]
+        B4 --> B5["a duração do bloco<br/>É a soma medida"]
+        B5 --> B6["MP4 sai narrado<br/><b>nada a colar depois</b>"]
     end
     style AGORA fill:#18241a,stroke:#5F7A58,color:#F2F2F0
-    style B5 fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
+    style B6 fill:#1f2e22,stroke:#5F7A58,color:#F2F2F0
 ```
 
-### Como você escreve
+**Por que isso elimina o erro em vez de reduzir:** não existem mais dois
+números para comparar. A tela não tem duração própria — ela só lê a do áudio.
+Dois relógios podem divergir; um relógio não tem com o que divergir.
 
-```json
-{
-  "tipo": "escada",
-  "degraus": [
-    { "horas": "44", "quando": "antes", "naBatida": 0 },
-    { "horas": "42", "quando": "agora", "naBatida": 1 }
-  ],
-  "falas": [
-    "Hoje são quarenta e quatro horas.",
-    "Em dezembro caem para quarenta e duas."
-  ]
-}
-```
-
-`naBatida: 1` = **este elemento entra quando a segunda fala começar.**
-
-```
-             0s        1s        2s        3s        4s        5s        6s   7s
-             ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼────┤
-                       batida 0                      batida 1
-                          ▼                             ▼
-  🔊 voz      ████████████████████████████  ██████████████████████████████████
-              "Hoje são quarenta e quatro   "Em dezembro caem para quarenta
-               horas."                       e duas."
-
-  🖥 tela     ┌──────────────────────────────────────────────────────────────┐
-   naBatida 0 │  44  antes                                                   │
-   naBatida 1 │                              42  agora ──────────────────────│
-              └──────────────────────────────────────────────────────────────┘
-                                            ↑
-                        o degrau 42 ENTRA no frame em que a voz
-                        começa a dizer "Em dezembro", não 7 frames
-                        depois nem 0,8 s depois
-```
-
-Mudou a fala? O gráfico acompanha sozinho no próximo render. **Você nunca
-reajusta um número de tempo.**
+> Por isso o `renderizar.sh` **recusa rodar** se o `tempos.json` não existir.
+> Sem medição ele teria que chutar, e chutar é o defeito que o sistema existe
+> para não ter.
 
 ---
 
